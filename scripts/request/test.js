@@ -6,15 +6,20 @@ var api = 'Payment Initiation';
 var path = pm.environment.get("schema_path");
 //var method = 'get';
 var method = pm.request.method.toLowerCase();
-var status = 200;
+var status = 200; //default
 //BRKC Let's make it dynamic with different responses.
-if(pm.request.headers.has("x-mock-response-code")) {
-    var status = pm.request.headers.one("x-mock-response-code").disabled ? 200 : parseInt(pm.request.headers.get("x-mock-response-code"));
-    
-    status = (status == undefined || isNaN(status)  ? 200 : status);
-    
-}
+console.log("TEST 1: " + ( pm.environment.get('use_mock_response') === "true"));
+console.log("USE MOCK: " + pm.environment.get('use_mock_response'));
+console.log("HAS: " + pm.request.headers.has("x-mock-response-code"));
+console.log("DISABLED: " + pm.request.headers.one("x-mock-response-code").disabled);
+console.log("VALUE: " + pm.request.headers.one("x-mock-response-code").value);
 
+
+if(pm.request.headers.has("x-mock-response-code") && !pm.request.headers.one("x-mock-response-code").disabled) {
+    var status = parseInt( pm.request.headers.one("x-mock-response-code").value);
+    status = (status === undefined || isNaN(status)) ? 200 : status;
+}
+console.log("STATUS: " + status); 
 
 // First Test - Baseline Status Code
 pm.test("Status code is " + status, function () {
@@ -50,7 +55,7 @@ pm.sendRequest(apiRequest, function (err, res) {
         var openapi = jsyaml.load(api_response.schema.schema);
         
         // Grab the Response
-        
+        console.log("METHOD: " + method + " STATUS: " + status + " PATH: " + path);
         var res = openapi.paths[path][method].responses[status]['$ref'];
         
         res = res.replace('#/components/responses/', '');
