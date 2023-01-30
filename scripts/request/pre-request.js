@@ -11,8 +11,15 @@ paths.forEach(path => {
 
 pm.environment.set("schema_path", schemaPath);
 
-//Wouldn't it be cool if we could actually do this?
-//pm.request.headers.upsert({"key":"x-mock-response-code","value":"{{response-code}}","disabled":(pm.environment.get("use_mock_response") === "false") });
+if(pm.environment.get("use_mock_response") === "true") {
+    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':false});
+}
+else
+{
+    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':true});
+}
+
+
 
 
 
