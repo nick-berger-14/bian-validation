@@ -50,7 +50,7 @@ pm.sendRequest(apiRequest, function (err, res) {
         var openapi = jsyaml.load(api_response.schema.schema);
         
         // Grab the Response
-        console.log("METHOD: " + method + " STATUS: " + status + " PATH: " + path);
+        
         var res = openapi.paths[path][method].responses[status]['$ref'];
         
         res = res.replace('#/components/responses/', '');
