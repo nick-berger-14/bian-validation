@@ -12,7 +12,7 @@ if(pm.request.headers.has("x-mock-response-code")) {
     var status = pm.request.headers.one("x-mock-response-code").disabled ? 200 : parseInt(pm.request.headers.get("x-mock-response-code"));
     
     status = (status == undefined || isNaN(status)  ? 200 : status);
-    console.log("STATUS: " + status); 
+    
 }
 
 
