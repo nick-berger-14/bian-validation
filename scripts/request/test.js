@@ -21,6 +21,7 @@ var api = 'Payment Initiation'; //need to make this dynamic
 var path = pm.environment.get("schema_path");  //need to make this dynamic
 var method = pm.request.method.toLowerCase(); //Set dynamically
 
+<<<<<<< HEAD
 // Use the value of the `x-mock-response-code` header if it exists, is not disabled, and if the `use-response-code` 
 // environment variable is set to `true`.  The header is configured in the pre-request script
 if(pm.request.headers.has("x-mock-response-code")) {
@@ -28,10 +29,28 @@ if(pm.request.headers.has("x-mock-response-code")) {
     
     status = (status == undefined || isNaN(status)  ? 200 : status);
 }
+=======
+var path = pm.environment.get("schema_path");
+//var method = 'get';
+var method = pm.request.method.toLowerCase();
+var status = 200; //default
+//BRKC Let's make it dynamic with different responses.
+console.log("TEST 1: " + ( pm.environment.get('use_mock_response') === "true"));
+console.log("USE MOCK: " + pm.environment.get('use_mock_response'));
+console.log("HAS: " + pm.request.headers.has("x-mock-response-code"));
+console.log("DISABLED: " + pm.request.headers.one("x-mock-response-code").disabled);
+console.log("VALUE: " + pm.request.headers.one("x-mock-response-code").value);
+>>>>>>> 53c10def3b2bde18c2bc202f63d45c9f0abaea52
 
 //Hardcode status to something different from that returned by the above
 //status = 200;
 
+
+if(pm.request.headers.has("x-mock-response-code") && !pm.request.headers.one("x-mock-response-code").disabled) {
+    var status = parseInt( pm.request.headers.one("x-mock-response-code").value);
+    status = (status === undefined || isNaN(status)) ? 200 : status;
+}
+console.log("STATUS: " + status); 
 
 // First Test - Baseline Status Code
 pm.test("Status code is " + status, function () {
@@ -68,7 +87,12 @@ pm.sendRequest(apiRequest, function (err, res) {
         //Convert from YAML to JSON, should probably test for schema format first
         var openapi = jsyaml.load(api_response.schema.schema);
         
+<<<<<<< HEAD
         // Grab the schema element for this specific response from the response (which is the complete schema)
+=======
+        // Grab the Response
+        console.log("METHOD: " + method + " STATUS: " + status + " PATH: " + path);
+>>>>>>> 53c10def3b2bde18c2bc202f63d45c9f0abaea52
         var res = openapi.paths[path][method].responses[status]['$ref'];
         
         // Clean it up a bit
