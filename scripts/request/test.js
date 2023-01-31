@@ -30,14 +30,10 @@ if(pm.request.headers.has("x-mock-response-code")) {
 }
 
 //Hardcode status to something different from that returned by the above
-//status = 200;
+//This code executes if the `force_conflict` collection variable is set to true AND `use_mock_response` is set to true AND `response-code` is not 200
+if(pm.collectionVariables.get("force_conflict") === 'true')
+    status = 200;
 
-
-if(pm.request.headers.has("x-mock-response-code") && !pm.request.headers.one("x-mock-response-code").disabled) {
-    var status = parseInt( pm.request.headers.one("x-mock-response-code").value);
-    status = (status === undefined || isNaN(status)) ? 200 : status;
-}
-console.log("STATUS: " + status); 
 
 // First Test - Baseline Status Code
 pm.test("Status code is " + status, function () {
