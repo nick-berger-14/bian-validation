@@ -28,20 +28,8 @@
                     "type": "string",
                     "description": "\n"
                 }
-            },
-            "required": [
-                "RecurringPaymentRecord",
-                "RecurringPaymentCustomerReference",
-                "RecurringPaymentReference",
-                "DateType",
-                "PaymentFeesCharges",
-                "DocumentDirectoryEntryInstanceReference"
-            ],
-            "additionalProperties": false
+            }
         }
     },
-    "required": [
-        "PaymentInitiationTransaction"
-    ],
-    "additionalProperties": false
+    "description": "Output: InCR Initiate a payment transaction"
 }
