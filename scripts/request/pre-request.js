@@ -25,9 +25,3 @@ else
 {
     pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':true});
 }
-
-
-git
-
-
-
