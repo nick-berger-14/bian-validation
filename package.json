@@ -1,0 +1,22 @@
+{
+  "name": "bian-validation",
+  "version": "1.0.0",
+  "description": "Tools for validating JSON against BIAN schemae",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BidnessForB/bian-validation.git"
+  },
+  "author": "bryan.cross@postman.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BidnessForB/bian-validation/issues"
+  },
+  "homepage": "https://github.com/BidnessForB/bian-validation#readme",
+  "dependencies": {
+    "ajv": "^8.12.0"
+  }
+}

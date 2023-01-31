@@ -1,0 +1,37 @@
+{
+    "schema": {
+        "type": "object",
+        "properties": {
+            "PaymentInitiationTransaction": {
+                "type": "object",
+                "properties": {
+                    "RecurringPaymentRecord": {
+                        "type": "string",
+                        "description": "\n"
+                    },
+                    "RecurringPaymentCustomerReference": {
+                        "type": "string",
+                        "description": "\n"
+                    },
+                    "RecurringPaymentReference": {
+                        "type": "string",
+                        "description": "\n"
+                    },
+                    "DateType": {
+                        "type": "string",
+                        "description": "\n"
+                    },
+                    "PaymentFeesCharges": {
+                        "type": "string",
+                        "description": "\n"
+                    },
+                    "DocumentDirectoryEntryInstanceReference": {
+                        "type": "string",
+                        "description": "\n"
+                    }
+                }
+            }
+        },
+        "description": "Output: InCR Initiate a payment transaction"
+    }
+}
