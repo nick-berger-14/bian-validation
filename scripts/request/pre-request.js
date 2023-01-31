@@ -19,10 +19,6 @@ else
     pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':true});
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 53c10def3b2bde18c2bc202f63d45c9f0abaea52
 
 
 
