@@ -1,3 +1,10 @@
+/*
+NOTE: This code is stored in GitHub:
+https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/pre-request.js
+
+*/
+
+
 var path = pm.request.url.getPath(true);
 var paths = pm.request.url.path;
 var schemaPath = '';

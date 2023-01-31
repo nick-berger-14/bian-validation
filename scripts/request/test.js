@@ -1,3 +1,10 @@
+/*
+NOTE: This code is stored in GitHub:
+https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/test.js
+
+*/
+
+
 const yaml =  pm.environment.get('js_yaml');
 (new Function(yaml))();
   //Mutate the schema to require all properties, custom for each ref :(
