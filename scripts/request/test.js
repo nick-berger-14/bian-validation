@@ -32,8 +32,10 @@ const yaml =  pm.environment.get('js_yaml');
     newSchema.properties = schema.properties;
     newSchema.required = Object.keys(schema.properties);
     newSchema.additionalProperties = false;
-    newSchema.properties.PaymentInitiationTransaction.required = Object.keys(schema.properties.PaymentInitiationTransaction.properties);
-    newSchema.properties.PaymentInitiationTransaction.additionalProperties = false;
+    if(status == 200) {
+        newSchema.properties.PaymentInitiationTransaction.required = Object.keys(schema.properties.PaymentInitiationTransaction.properties);
+        newSchema.properties.PaymentInitiationTransaction.additionalProperties = false;
+      }
     return newSchema
   };
 
@@ -64,7 +66,13 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     }
     elem = elem.split('\/')[(elem.split('\/').length) - 1]
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
-    elemRef = elem.split('\/')[(elem.split('\/').length) - 1]
+    if(status != 200) {
+        elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
+      }
+      else {
+        elemRef = elem.split('\/')[(elem.split('\/').length) - 1] //works for req and res 200
+      }
+    //elemRef = elem.split('\/')[(elem.split('\/').length) - 1]
     var schemaData = {};
     schemaData.subSchema = schema.components.schemas[elemRef];
     schemaData.ref = elemRef;
