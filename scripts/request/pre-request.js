@@ -23,6 +23,6 @@ pm.environment.set("schema_path", schemaPath);
 if(pm.environment.get("use_mock_response") === "true") {
     pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':false});
 }
-else {}
+else {
     pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':true});
 }
