@@ -80,16 +80,24 @@ pm.sendRequest(apiRequest, function (err, res) {
         
         // Grab the schema element for this specific response from the response (which is the complete schema)
         var res = openapi.paths[path][method].responses[status]['$ref'];
+        var req = openapi.paths[path][method].requestBody['$ref'];
+
+        //Grab the schema element for this specific REQUEST from the schema
         
         // Clean it up a bit
         res = res.replace('#/components/responses/', '');
+        req = req.replace('#/components/requestBodies/','');
 
         // Pull the top-level Object from the sub-schema, this is the ref used for labelling below
         var ref = openapi.components.responses[res].content['application/json'].schema['$ref'];
+        var reqRef = openapi.components.requestBodies[res].content['application/json'].schema['$ref'];
         ref = ref.replace('#/components/schemas/', '');
+        reqRef = reqRef.replace('#/components/schemas/', '');
         
         //Pull out the individual sub-schema element itself
         var item = openapi.components.schemas[ref];
+        var reqItem = openapi.components.schemas[reqRef];
+        console.log("REQITEM: " + JSON.stringify(reqItem));
 
         // Prepare what is needed for AJV
         var schema = {};
