@@ -12,6 +12,7 @@ const yaml =  pm.environment.get('js_yaml');
     if(status != 200) {
         return schema;
     }
+    console.log("unmodified subschema" + JSON.stringify(schema));
     var newSchema = {};
     newSchema.type = schema.type;
     newSchema.properties = schema.properties;
