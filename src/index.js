@@ -5,17 +5,7 @@ const Ajv = require('ajv');
 
   
 
-var item = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/postman/PaymentInitiationTransaction-object-schema.json', 'utf8'));
 
-/*
-  const fastifyRouteConfig = {
-    schema: {
-      body: requireAll(schema)
-    }
-    
-    
-  }
-  */
   
   function requireAll (schema) {
     var newSchema = {};
@@ -37,15 +27,59 @@ var item = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/
         const valid = validate(data);
         return valid;
   }
-  
-  var data = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/response-bodies/PaymentInitiationTransaction-bad.json', 'utf8'));
-  valid = validate(data, item);
-  console.log('-bad body is valid?: ' + valid);
+
+  function getSubSchemaYaml(schemapath, method, schemaYaml, subComponent) {
+    const yaml =  require('js-yaml');
+    //const yaml =  require('js_yaml'); //underscore required in Postman
+    //(new Function(yaml))();
+    //return getSubSchemaJson(jsyaml.load(api_response.schema.schema));
+    return getSubSchemaJson(schemapath, method, yaml.load(schemaYaml),subComponent);
+  }
+
+  function getSubSchemaJson(path, method, schema, subComponent) {
+    var subComponent = subComponent === 'request' ? 'requestBody' : 'responses';
+    var subRef = subComponent === 'requestBody' ?'requestBodies' :'responses'; 
+    var elem;
+    if(subComponent === 'responses') {
+      elem = schema.paths[path][method][subComponent][status]['$ref'];
+    }
+    else {
+      elem = schema.paths[path][method][subComponent]['$ref'];
+    }
+    
+    elem = elem.split('\/')[(elem.split('\/').length) - 1]
+    var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
+    elemRef = elem.split('\/')[(elem.split('\/').length) - 1]
+    return schema.components.schemas[elemRef];
+    /*
+    var elem = schema.paths[path][method].requestBody['$ref'];
+    elem = elem.replace('#/components/requestBodies/','');
+    var elemRef = schema.components.requestBodies[elem].content['application/json'].schema['$ref'];
+    elemRef = elemRef.replace('#/components/schemas/', '');
+    return schema.components.schemas[elemRef];
+    */
+  }
+
+var schema = fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/postman/PaymentInitiation-schema.yaml', 'utf8');
+var status = 200;
+
+var data = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/request-bodies/PaymentInitiationTransaction-Request-body-good.json', 'utf8'));
+//var data = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/request-bodies/PaymentInitiationTransaction-Request-body-bad.json', 'utf8'));
 
 
-  var data = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/response-bodies/PaymentInitiationTransaction-good.json', 'utf8'));
-  valid = validate(data, item);
-  console.log('-good body is valid?: ' + valid);
+var method = 'post'
+var path = '/PaymentInitiation/Initiate';
+
+var reqItem = getSubSchemaYaml(path, 'post',schema, 'request');
+var resItem = getSubSchemaYaml(path, 'post', schema, 'response');
+//console.log(JSON.stringify(data));
+
+var valid = validate(data, reqItem);
+console.log("VALID: " + valid);
+
+  //var data = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/response-bodies/PaymentInitiationTransaction-good.json', 'utf8'));
+  //valid = validate(data, item);
+  //console.log('-good body is valid?: ' + valid);
   /*
         const ajv = new Ajv();
         item = requireAll(item);

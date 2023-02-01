@@ -1,0 +1,79 @@
+{
+    "type": "object",
+    "properties": {
+        "PaymentInitiationTransaction": {
+            "type": "object",
+            "properties": {
+                "PaymentTransactionType": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "RecurringPaymentRecord": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "RecurringPaymentCustomerReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "RecurringPaymentReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "PayerReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "PayerBankReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "PayerProductInstanceReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "PayeeReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "PayeeBankReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "PayeeProductInstanceReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "Amount": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "Currency": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "DateType": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "PaymentMechanism": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "PaymentPurpose": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "DocumentDirectoryEntryInstanceReference": {
+                    "type": "string",
+                    "description": "\n"
+                },
+                "DocumentContent": {
+                    "type": "string",
+                    "description": "\n"
+                }
+            }
+        }
+    },
+    "description": "Input: InCR Initiate a payment transaction"
+}
