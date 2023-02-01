@@ -23,7 +23,6 @@ console.log("HEADER: " + pm.request.headers.has('x-mock-response-code'));
 if(pm.environment.get("use_mock_response") === "true") {
     pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':false});
 }
-else
-{
-    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':true});
+else if(pm.request.headers.has('x-mock-response-code')) {
+    console.log("INDEX: " + pm.request.headers.indexOf('x-mock-response-code'));
 }
