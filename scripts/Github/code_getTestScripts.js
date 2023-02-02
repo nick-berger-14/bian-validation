@@ -7,11 +7,14 @@
 var owner = pm.collectionVariables.get("owner");
 var repoSlug = pm.collectionVariables.get("GitHub_repoSlug");
 var path = pm.collectionVariables.get("GitHub_testScriptsPath");
-var token = pm.environment.get("GitHubPAT");
+var token = pm.environment.get("GitHub_PAT");
 var baseUrl = pm.collectionVariables.get("GitHub_APIBaseURL");
+var ref = pm.collectionVariables.get("GitHub_currentBranch");
 //Build the URL
-var url = baseUrl + "/repos/" + repoSlug + "/contents/" + path;
-console.log("URL: " + url);
+console.log("REF: ", ref);
+console.log("REF UNDEF: " + (ref === ''));
+var url = baseUrl + "/repos/" + repoSlug + "/contents/" + path + ((ref === undefined || ref === '') ? '' : '?ref=' + ref);
+console.log("GitHub Test Script URL: " + url);
 const postRequest = {
  url: url,
  method: 'get',
