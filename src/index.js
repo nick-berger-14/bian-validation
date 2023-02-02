@@ -40,37 +40,39 @@ const { json } = require('stream/consumers');
     return getSubSchemaJson(schemapath, method, yaml.load(schemaYaml),subComponent);
   }
 
-  function getSubSchemaJson(path, method, schema, subComponent) {
-    var subComponent = subComponent === 'request' ? 'requestBody' : 'responses';
-    var subRef = subComponent === 'requestBody' ?'requestBodies' :'responses'; 
+  function getSubSchemaJson(schemapath, method, schema, type) {
+    var subComponent = type === 'request' ? 'requestBody' : 'responses';
+    var subRef = type === 'request' ?'requestBodies' :'responses'; 
     var elem;
-    if(subComponent === 'responses') {
-      elem = schema.paths[path][method][subComponent][status]['$ref']; //same place for 200 and <> 200
+    try {
+      if(subComponent === 'responses') {
+        elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
+      }
+      else {
+        elem = schema.paths[schemapath][method][subComponent]['$ref'];
+      }
     }
-    else {
-      elem = schema.paths[path][method][subComponent]['$ref'];
+    catch(err) {
+      if(err.message === "Cannot read properties of undefined (reading '$ref')") {
+        console.log("No " + type + "body found for method " + method + " on path: " + schemapath);
+        return null;
+      }
     }
-    
     elem = elem.split('\/')[(elem.split('\/').length) - 1]
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
     if(status != 200) {
-      elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
-    }
-    else {
-      elemRef = elem.split('\/')[(elem.split('\/').length) - 1] //works for req and res 200
-    }
-    
-    return schema.components.schemas[elemRef];
+        elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
+      }
+      else {
+        elemRef = elem.split('\/')[(elem.split('\/').length) - 1] //works for req and res 200
+      }
+    //elemRef = elem.split('\/')[(elem.split('\/').length) - 1]
+    var schemaData = {};
+    schemaData.subSchema = schema.components.schemas[elemRef];
+    schemaData.ref = elemRef;
+    return schemaData;
+};
 
-    schema.components.responses.Unauthorized.content['application/json'].schema.$ref
-    /*
-    var elem = schema.paths[path][method].requestBody['$ref'];
-    elem = elem.replace('#/components/requestBodies/','');
-    var elemRef = schema.components.requestBodies[elem].content['application/json'].schema['$ref'];
-    elemRef = elemRef.replace('#/components/schemas/', '');
-    return schema.components.schemas[elemRef];
-    */
-  }
 
 var schema = fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/postman/PaymentInitiation-schema.yaml', 'utf8');
 var status = 401;
@@ -80,11 +82,11 @@ var resData = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessfo
 var reqData = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/request-bodies/PaymentInitiationTransaction-Request-body-good.json', 'utf8'));
 
 
-var method = 'post'
-var path = '/PaymentInitiation/Initiate';
+var method = 'get'
+var path = '/PaymentInitiation/{paymentinitiationid}/Retrieve';
 
-var reqItem = getSubSchemaYaml(path, 'post',schema, 'request');
-var resItem = getSubSchemaYaml(path, 'post', schema, 'response');
+var reqItem = getSubSchemaYaml(path, method,schema, 'request');
+var resItem = getSubSchemaYaml(path, method, schema, 'response');
 //console.log(JSON.stringify(data));
 
 var valid = validate(reqData, reqItem);

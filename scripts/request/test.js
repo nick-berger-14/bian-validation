@@ -58,13 +58,25 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     var subComponent = type === 'request' ? 'requestBody' : 'responses';
     var subRef = type === 'request' ?'requestBodies' :'responses'; 
     var elem;
-    if(subComponent === 'responses') {
-      elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
+
+    var schemaData = {};
+    schemaData.subSchema = "No Schema"
+    schemaData.ref = "No Ref";
+
+  try {
+      if(subComponent === 'responses') {
+        elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
+      }
+      else {
+        elem = schema.paths[schemapath][method][subComponent]['$ref'];
+      }
     }
-    else {
-      elem = schema.paths[schemapath][method][subComponent]['$ref'];
-    }
-    elem = elem.split('\/')[(elem.split('\/').length) - 1]
+    catch(err) {
+      if(err.message === "Cannot read properties of undefined (reading '$ref')") {
+        console.log("No " + type + "body found for method " + method + " on path: " + schemapath);
+        return schemaData;
+      }
+    }    elem = elem.split('\/')[(elem.split('\/').length) - 1]
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
     if(status != 200) {
         elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
@@ -73,7 +85,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
         elemRef = elem.split('\/')[(elem.split('\/').length) - 1] //works for req and res 200
       }
     //elemRef = elem.split('\/')[(elem.split('\/').length) - 1]
-    var schemaData = {};
+    schemaData = {};
     schemaData.subSchema = schema.components.schemas[elemRef];
     schemaData.ref = elemRef;
     return schemaData;
@@ -112,7 +124,9 @@ const apiRequest = {
 pm.sendRequest(apiRequest, function (err, res) {
 
     if (err) {
-        console.log(err);
+        pm.test('Error fetching schema for the ' + api + ': ' + e.message, function() {
+                pm.expect(false).to.be.true;
+            });
     } else {   
 
         // Pull Schema from API response        
@@ -122,18 +136,30 @@ pm.sendRequest(apiRequest, function (err, res) {
         var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
-        const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchemaData.subSchema);
-
-        pm.test('Validating request against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
-            var data = pm.response.json();
-            pm.expect(reqValid).to.be.true;
-        });
         
-        pm.test('Validating response against ' + resBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
-            var data = pm.response.json();
-            pm.expect(bodyValid).to.be.true;
-        });
-
+        if(reqBodySchemaData.ref !== 'No Ref') {
+            pm.test('Validating request body against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
+                const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchemaData.subSchema);
+                pm.expect(reqValid).to.be.true;
+            });
+        }
+        else {
+                pm.test('No request body for path ' + path +  'from the ' + api + ' OpenAPI', function() {
+                pm.expect(true).to.be.true;
+            });
+        }
+        if(resBodySchemaData.ref !== 'No Ref') {
+            pm.test('Validating response body against ' + resBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
+                
+                pm.expect(bodyValid).to.be.true;
+            });
+        }
+        else {
+                pm.test('No response body for path ' + path +  'from the ' + api + ' OpenAPI', function() {
+                pm.expect(true).to.be.true;
+            });
+        }
+        
     }    
 
 });
