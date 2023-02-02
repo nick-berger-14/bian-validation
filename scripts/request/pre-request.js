@@ -20,9 +20,11 @@ pm.environment.set("schema_path", schemaPath);
 
 
 
-if(pm.environment.get("use_mock_response") === "true") {
-    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':false});
+if(pm.environment.get("ct_config_useMockResponse") === "true") {
+    console.log("SETTING MOCK ")
+    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{ct_config_mockResponseCode}}','disabled':false});
 }
 else {
-    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{response-code}}','disabled':true});
+    console.log("NOT SETTING MOCK ")
+    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{ct_config_mockResponseCode}}','disabled':true});
 }
