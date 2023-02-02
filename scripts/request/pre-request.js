@@ -16,7 +16,7 @@ paths.forEach(path => {
         schemaPath = schemaPath + "/" + path;
 });
 
-pm.environment.set("schema_path", schemaPath);
+pm.environment.set("ct_runtime_schemaPath", schemaPath);
 
 
 

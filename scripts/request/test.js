@@ -54,6 +54,7 @@ function getSubSchemaYaml(schemapath, method, schemaYaml, type) {
 };
 
 function getSubSchemaJson(schemapath, method, schema, type) {
+    console.log("SCHEMA: ", schema);
     var subComponent = type === 'request' ? 'requestBody' : 'responses';
     var subRef = type === 'request' ?'requestBodies' :'responses'; 
     var elem;
@@ -61,6 +62,10 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     var schemaData = {};
     schemaData.subSchema = "No Schema"
     schemaData.ref = "No Ref";
+    console.log("schemapath " + schemapath);
+    console.log("method " + method);
+    console.log("subComponent " + subComponent);
+    console.log("status " + status);
 
   try {
       if(subComponent === 'responses') {
@@ -75,7 +80,13 @@ function getSubSchemaJson(schemapath, method, schema, type) {
         console.log("No " + type + "body found for method " + method + " on path: " + schemapath);
         return schemaData;
       }
-    }    elem = elem.split('\/')[(elem.split('\/').length) - 1]
+      else {
+          console.log(err);
+      }
+    }    
+    console.log("elem", elem);
+    elem = elem.split('\/')[(elem.split('\/').length) - 1]
+    
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
     if(status != 200) {
         elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
@@ -129,9 +140,11 @@ pm.sendRequest(apiRequest, function (err, res) {
 
         // Pull Schema from API response        
         var api_response = res.json();  
-        console.log("RESPONSE: ", api_response);
+        console.log("getting response: " ,api_response);
         var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
+        console.log("got response");
         var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
+        console.log("got request");
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
         
