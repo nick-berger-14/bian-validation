@@ -26,7 +26,6 @@ const yaml =  pm.environment.get('js_yaml');
     if(status != 200) {
         return schema;
     }
-    console.log("unmodified subschema" + JSON.stringify(schema));
     var newSchema = {};
     newSchema.type = schema.type;
     newSchema.properties = schema.properties;
@@ -43,7 +42,6 @@ const yaml =  pm.environment.get('js_yaml');
     var Ajv = require('ajv');
     ajv = new Ajv({logger: console});
     schema = requireAll(schema);
-    console.log("schema ", schema);
     const validate = ajv.compile(schema);
     const valid = validate(data);
     return valid;
@@ -91,8 +89,6 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     return schemaData;
 };
 
-
-console.log("PATH: " + path);
 
 // Use the value of the `x-mock-response-code` header if it exists, is not disabled, and if the `use-response-code` 
 // environment variable is set to `true`.  The header is configured in the pre-request script
