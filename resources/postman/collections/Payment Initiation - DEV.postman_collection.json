@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6fe2987e-5f10-4261-b8ec-e0436e278adf",
+		"_postman_id": "f9287ba3-ff22-46cf-9cc4-0c67e1cb698a",
 		"name": "Payment Initiation - DEV",
 		"description": "This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and orchestrates the transaction. It provides support for repeating/scheduled payments\n\nContact Support:\n Name: BIAN",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -2009,48 +2009,6 @@
 					]
 				}
 			]
-		},
-		{
-			"name": "Get File",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://api.github.com/repos/bidnessforb/bian-validation/contents/scripts/request/pre-request.js?ref=rationalize-variables",
-					"protocol": "https",
-					"host": [
-						"api",
-						"github",
-						"com"
-					],
-					"path": [
-						"repos",
-						"bidnessforb",
-						"bian-validation",
-						"contents",
-						"scripts",
-						"request",
-						"pre-request.js"
-					],
-					"query": [
-						{
-							"key": "ref",
-							"value": "rationalize-variables"
-						}
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"auth": {
@@ -2080,7 +2038,6 @@
 				"exec": [
 					"eval(pm.collectionVariables.get(\"code_getPreRequestScripts\"));",
 					"eval(pm.collectionVariables.get(\"code_getTestScripts\"));",
-					"//eval(pm.collectionVariables.get(\"code_getSchema\"));",
 					"",
 					"",
 					""
@@ -2119,17 +2076,12 @@
 		},
 		{
 			"key": "code_getPreRequestScripts",
-			"value": "/*\n * Example showing the code to retrieve snippets from GitHub\n * for use a Test scripts. Stored in the code_getTestScripts\n * environment variable\n*/\n//Setup the URL components\nvar owner = pm.collectionVariables.get(\"owner\");\nvar repoSlug = pm.collectionVariables.get(\"GitHub_repoSlug\");\nvar path = pm.collectionVariables.get(\"GitHub_preRequestScriptsPath\");\nvar token = pm.environment.get(\"GitHub_PAT\");\nvar baseUrl = pm.collectionVariables.get(\"GitHub_APIBaseURL\");\nvar ref = pm.collectionVariables.get(\"GitHub_currentBranch\");\nconsole.log(\"REF: \" + ref);\n//Build the URL\nvar url = baseUrl + \"/repos/\" + repoSlug + \"/contents/\" + path + (ref === undefined ? '' : '?ref=' + ref);\nconsole.log(\"GitHub Test Script URL: \" + url);\nconst postRequest = {\n url: url,\n method: 'get',\n header: {\n 'Content-Type': 'application/json',\n 'Authorization': 'bearer ' + token\n }\n};\npm.sendRequest(postRequest, (err, res) => {\n var jsonData = JSON.parse(res.text());\nvar base64content = jsonData.content;\nvar buff = new Buffer(base64content, 'base64');\nvar content = buff.toString('ascii');\npm.collectionVariables.set(\"CodeLibrary_testScripts\", content);\n});\n",
+			"value": "/*\n * Example showing the code to retrieve snippets from GitHub\n * for use as pre-reqiuest scripts. Stored in the CodeLibrary_getPreRequestScripts\n * environment variable\n*/\n//Setup the URL components\nvar owner = pm.collectionVariables.get(\"owner\");\nvar repoSlug = pm.collectionVariables.get(\"GitHub_repoSlug\");\nvar path = pm.collectionVariables.get(\"GitHub_preRequestScriptsPath\");\nvar token = pm.environment.get(\"GitHub_PAT\");\nvar baseUrl = pm.collectionVariables.get(\"GitHub_APIBaseURL\");\nvar ref = pm.collectionVariables.get(\"GitHub_currentBranch\");\nconsole.log(\"REF: \" + ref);\nconsole.log(\"REF UNDEF: \" + (ref === ''));\n//Build the URL\nvar url = baseUrl + \"/repos/\" + repoSlug + \"/contents/\" + path + ((ref === undefined || ref === '') ? '' : '?ref=' + ref);\nconsole.log(\"GitHub Pre Request Script URL: \" + url);\nconst postRequest = {\n url: url,\n method: 'get',\n header: {\n 'Content-Type': 'application/json',\n 'Authorization': 'bearer ' + token\n }\n};\npm.sendRequest(postRequest, (err, res) => {\n var jsonData = JSON.parse(res.text());\nvar base64content = jsonData.content;\nvar buff = new Buffer(base64content, 'base64');\nvar content = buff.toString('ascii');\npm.collectionVariables.set(\"CodeLibrary_preRequestScripts\", content);\n});\n",
 			"type": "string"
 		},
 		{
 			"key": "code_getTestScripts",
-			"value": "/*\n * Example showing the code to retrieve snippets from GitHub\n * for use a Test scripts. Stored in the code_getTestScripts\n * environment variable\n*/\n//Setup the URL components\nvar owner = pm.collectionVariables.get(\"owner\");\nvar repoSlug = pm.collectionVariables.get(\"GitHub_repoSlug\");\nvar path = pm.collectionVariables.get(\"GitHub_testScriptsPath\");\nvar token = pm.environment.get(\"GitHub_PAT\");\nvar baseUrl = pm.collectionVariables.get(\"GitHub_APIBaseURL\");\nvar ref = pm.collectionVariables.get(\"GitHub_currentBranch\");\nconsole.log(\"REF: \" + ref);\n//Build the URL\nvar url = baseUrl + \"/repos/\" + repoSlug + \"/contents/\" + path + (ref === undefined ? '' : '?ref=' + ref);\nconsole.log(\"GitHub Test Script URL: \" + url);\nconst postRequest = {\n url: url,\n method: 'get',\n header: {\n 'Content-Type': 'application/json',\n 'Authorization': 'bearer ' + token\n }\n};\npm.sendRequest(postRequest, (err, res) => {\n var jsonData = JSON.parse(res.text());\nvar base64content = jsonData.content;\nvar buff = new Buffer(base64content, 'base64');\nvar content = buff.toString('ascii');\npm.collectionVariables.set(\"CodeLibrary_testScripts\", content);\n});\n",
-			"type": "string"
-		},
-		{
-			"key": "code_getSchema",
-			"value": "/*\n * Example showing the code to retrieve snippets from GitHub\n * for use as PreRequest scripts. Stored in the code_getPreRequestScripts\n * environment variable\n*/\n//Setup the URL components\nvar token = pm.environment.get(\"GitHubPAT\");\nvar baseUrl = pm.collectionVariables.get(\"GitHub_APIBaseURL\");\n//Build the URL\nvar url = baseUrl + \"/\" + pm.collectionVariables.get(\"GitHub_schemaPath\");\nconsole.log(\"URL: \" + url);\nconst postRequest = {\n url: url,\n method: 'get',\n header: {\n 'Content-Type': 'application/json',\n 'Authorization': 'bearer ' + token\n }\n};\npm.sendRequest(postRequest, (err, res) => {\nvar jsonData = JSON.parse(res.text());\nvar base64content = jsonData.content;\nvar buff = new Buffer(base64content, 'base64');\nvar content = buff.toString('ascii');\npm.collectionVariables.set(\"ct_runtime_schemaJson\", content);\n});",
+			"value": "/*\n * Example showing the code to retrieve snippets from GitHub\n * for use a Test scripts. Stored in the code_getTestScripts\n * environment variable\n*/\n//Setup the URL components\nvar owner = pm.collectionVariables.get(\"owner\");\nvar repoSlug = pm.collectionVariables.get(\"GitHub_repoSlug\");\nvar path = pm.collectionVariables.get(\"GitHub_testScriptsPath\");\nvar token = pm.environment.get(\"GitHub_PAT\");\nvar baseUrl = pm.collectionVariables.get(\"GitHub_APIBaseURL\");\nvar ref = pm.collectionVariables.get(\"GitHub_currentBranch\");\n//Build the URL\nconsole.log(\"REF: \", ref);\nconsole.log(\"REF UNDEF: \" + (ref === ''));\nvar url = baseUrl + \"/repos/\" + repoSlug + \"/contents/\" + path + ((ref === undefined || ref === '') ? '' : '?ref=' + ref);\nconsole.log(\"GitHub Test Script URL: \" + url);\nconst postRequest = {\n url: url,\n method: 'get',\n header: {\n 'Content-Type': 'application/json',\n 'Authorization': 'bearer ' + token\n }\n};\npm.sendRequest(postRequest, (err, res) => {\n var jsonData = JSON.parse(res.text());\nvar base64content = jsonData.content;\nvar buff = new Buffer(base64content, 'base64');\nvar content = buff.toString('ascii');\npm.collectionVariables.set(\"CodeLibrary_testScripts\", content);\n});\n",
 			"type": "string"
 		},
 		{

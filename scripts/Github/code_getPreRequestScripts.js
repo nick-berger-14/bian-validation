@@ -1,6 +1,6 @@
 /*
  * Example showing the code to retrieve snippets from GitHub
- * for use a Test scripts. Stored in the code_getTestScripts
+ * for use as pre-reqiuest scripts. Stored in the CodeLibrary_getPreRequestScripts
  * environment variable
 */
 //Setup the URL components
@@ -14,7 +14,7 @@ console.log("REF: " + ref);
 console.log("REF UNDEF: " + (ref === ''));
 //Build the URL
 var url = baseUrl + "/repos/" + repoSlug + "/contents/" + path + ((ref === undefined || ref === '') ? '' : '?ref=' + ref);
-console.log("GitHub Test Script URL: " + url);
+console.log("GitHub Pre Request Script URL: " + url);
 const postRequest = {
  url: url,
  method: 'get',
@@ -28,5 +28,5 @@ pm.sendRequest(postRequest, (err, res) => {
 var base64content = jsonData.content;
 var buff = new Buffer(base64content, 'base64');
 var content = buff.toString('ascii');
-pm.collectionVariables.set("CodeLibrary_testScripts", content);
+pm.collectionVariables.set("CodeLibrary_preRequestScripts", content);
 });
