@@ -8,21 +8,23 @@ const { json } = require('stream/consumers');
 
 
   
-  function requireAll (schema) {
-    var newSchema = {};
-    newSchema.type = schema.type;
-    newSchema.properties = schema.properties;
-    //schema.schema.required = Object.keys(schema.schema.properties);
-    newSchema.required = Object.keys(schema.properties);
-    newSchema.additionalProperties = false;
-    //schema.schema.properties.PaymentInitiationTransaction.required = Object.keys(schema.schema.properties.PaymentInitiationTransaction.properties);
-    if(status == 200) {
-      newSchema.properties.PaymentInitiationTransaction.required = Object.keys(schema.properties.PaymentInitiationTransaction.properties);
-      newSchema.properties.PaymentInitiationTransaction.additionalProperties = false;
-    }
-    
-    return newSchema
-  }
+  //Mutate the schema to require all properties, custom for each ref :(
+    function requireAll (schema) {
+      if(status != 200) {
+          return schema;
+      }
+      var newSchema = {};
+      newSchema.type = schema.type;
+      newSchema.properties = schema.properties;
+      newSchema.required = Object.keys(schema.properties);
+      newSchema.additionalProperties = false;
+      if(status == 200) {
+          newSchema.properties.PaymentInitiationTransaction.required = Object.keys(schema.properties.PaymentInitiationTransaction.properties);
+          newSchema.properties.PaymentInitiationTransaction.additionalProperties = false;
+        }
+      return newSchema
+    };
+  
 
   function validate(data, schema) {
         const ajv = new Ajv();
@@ -74,7 +76,7 @@ const { json } = require('stream/consumers');
 };
 
 
-var schema = fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/postman/PaymentInitiation-schema.yaml', 'utf8');
+var schema = fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/postman/schemas/PaymentInitiation-schema.yaml', 'utf8');
 var status = 401;
 
 var resData = JSON.parse(fs.readFileSync('/Users/bryancross/dev/github/bidnessforb/bian-validation/resources/response-bodies/err-body.json', 'utf8'));

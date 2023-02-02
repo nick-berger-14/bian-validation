@@ -82,7 +82,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
       else {
         elemRef = elem.split('\/')[(elem.split('\/').length) - 1] //works for req and res 200
       }
-    //elemRef = elem.split('\/')[(elem.split('\/').length) - 1]
+
     schemaData = {};
     schemaData.subSchema = schema.components.schemas[elemRef];
     schemaData.ref = elemRef;
