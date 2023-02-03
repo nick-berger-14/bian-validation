@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2bb54b52-0099-4181-8f7b-cd3c011cbe24",
+		"_postman_id": "6fe2987e-5f10-4261-b8ec-e0436e278adf",
 		"name": "Payment Initiation",
 		"description": "This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and orchestrates the transaction. It provides support for repeating/scheduled payments\n\nContact Support:\n Name: BIAN",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
