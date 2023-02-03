@@ -51,7 +51,7 @@ const { json } = require('stream/consumers');
     var schemaData = {};
     schemaData.subSchema = "No Schema"
     schemaData.ref = "No Ref";
-
+    //This is terrible
   try {
       if(subComponent === 'responses') {
         elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
@@ -73,6 +73,7 @@ const { json } = require('stream/consumers');
     elem = elem.split('\/')[(elem.split('\/').length) - 1]
     
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
+    //This is also terrible
     if(status != 200) {
         elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
       }
