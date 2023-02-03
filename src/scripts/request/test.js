@@ -66,7 +66,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     console.log("method " + method);
     console.log("subComponent " + subComponent);
     console.log("status " + status);
-
+//this is terrible
   try {
       if(subComponent === 'responses') {
         elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
@@ -88,6 +88,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     elem = elem.split('\/')[(elem.split('\/').length) - 1]
     
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
+    //this is terrible also
     if(status != 200) {
         elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
       }

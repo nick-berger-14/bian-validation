@@ -51,7 +51,7 @@ const { json } = require('stream/consumers');
     var schemaData = {};
     schemaData.subSchema = "No Schema"
     schemaData.ref = "No Ref";
-    //This is terrible
+//This is terrible    
   try {
       if(subComponent === 'responses') {
         elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
