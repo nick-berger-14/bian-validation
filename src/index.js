@@ -43,10 +43,16 @@ const { json } = require('stream/consumers');
   }
 
   function getSubSchemaJson(schemapath, method, schema, type) {
+    console.log("SCHEMA: ", schema);
     var subComponent = type === 'request' ? 'requestBody' : 'responses';
     var subRef = type === 'request' ?'requestBodies' :'responses'; 
     var elem;
-    try {
+
+    var schemaData = {};
+    schemaData.subSchema = "No Schema"
+    schemaData.ref = "No Ref";
+
+  try {
       if(subComponent === 'responses') {
         elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
       }
@@ -57,10 +63,15 @@ const { json } = require('stream/consumers');
     catch(err) {
       if(err.message === "Cannot read properties of undefined (reading '$ref')") {
         console.log("No " + type + "body found for method " + method + " on path: " + schemapath);
-        return null;
+        return schemaData;
       }
-    }
+      else {
+          console.log(err);
+      }
+    }    
+    console.log("elem", elem);
     elem = elem.split('\/')[(elem.split('\/').length) - 1]
+    
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
     if(status != 200) {
         elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
@@ -68,8 +79,8 @@ const { json } = require('stream/consumers');
       else {
         elemRef = elem.split('\/')[(elem.split('\/').length) - 1] //works for req and res 200
       }
-    //elemRef = elem.split('\/')[(elem.split('\/').length) - 1]
-    var schemaData = {};
+
+    schemaData = {};
     schemaData.subSchema = schema.components.schemas[elemRef];
     schemaData.ref = elemRef;
     return schemaData;

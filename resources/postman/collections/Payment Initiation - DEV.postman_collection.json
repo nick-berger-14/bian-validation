@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "6fe2987e-5f10-4261-b8ec-e0436e278adf",
-		"name": "Payment Initiation",
+		"_postman_id": "f9287ba3-ff22-46cf-9cc4-0c67e1cb698a",
+		"name": "Payment Initiation - DEV",
 		"description": "This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and orchestrates the transaction. It provides support for repeating/scheduled payments\n\nContact Support:\n Name: BIAN",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21868609"
@@ -2009,48 +2009,6 @@
 					]
 				}
 			]
-		},
-		{
-			"name": "Get File",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://api.github.com/repos/bidnessforb/bian-validation/contents/scripts/request/pre-request.js?ref=rationalize-variables",
-					"protocol": "https",
-					"host": [
-						"api",
-						"github",
-						"com"
-					],
-					"path": [
-						"repos",
-						"bidnessforb",
-						"bian-validation",
-						"contents",
-						"scripts",
-						"request",
-						"pre-request.js"
-					],
-					"query": [
-						{
-							"key": "ref",
-							"value": "rationalize-variables"
-						}
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"auth": {
@@ -2128,12 +2086,12 @@
 		},
 		{
 			"key": "GitHub_preRequestScriptsPath",
-			"value": "src/scripts/request/pre-request.js",
+			"value": "scripts/request/pre-request.js",
 			"type": "string"
 		},
 		{
 			"key": "GitHub_testScriptsPath",
-			"value": "src/scripts/request/test.js",
+			"value": "scripts/request/test.js",
 			"type": "string"
 		},
 		{
