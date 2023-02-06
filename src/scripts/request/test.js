@@ -18,7 +18,7 @@ console.log("API ID: " + api_id + " API VERSION ID: " + api_version_id + " SCHEM
 // Pull the OpenAPI from the Postman API
 // We're just after a schema here and it's not going to change, should we just go straight to BIAN?
 var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_version_id + '/schemas/' + schema_id;
-//console.log("API URL: " + api_url);
+
 
 const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
 
@@ -56,7 +56,6 @@ const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
 function getSubSchemaYaml(schemapath, method, schemaYaml, type) {
     
     var schemaJson = jsyaml.load(schemaYaml);
-    console.log(JSON.stringify(schemaJson));
     return getSubSchemaJson(schemapath, method, schemaJson, type);
 };
 
@@ -155,8 +154,6 @@ pm.sendRequest(apiRequest, function (err, res) {
         
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
-        console.log("Config REQ: " + config.validate.requestBody);
-        console.log("Config REQ: " + config.validate.responseBody);
         if(reqBodySchemaData.ref !== 'No Ref' && config.validate.requestBody) {
             pm.test('Validating request body against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
                 const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchemaData.subSchema);
