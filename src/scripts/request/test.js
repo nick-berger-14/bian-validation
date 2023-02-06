@@ -20,6 +20,7 @@ var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_v
 console.log("API URL: " + api_url);
 
 const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
+console.log(yaml);
 (new Function(yaml))();
 
   //Mutate the schema to require all properties, custom for each ref :(
@@ -54,7 +55,7 @@ function getSubSchemaYaml(schemapath, method, schemaYaml, type) {
 };
 
 function getSubSchemaJson(schemapath, method, schema, type) {
-    console.log("SCHEMA: ", schema);
+    
     var subComponent = type === 'request' ? 'requestBody' : 'responses';
     var subRef = type === 'request' ?'requestBodies' :'responses'; 
     var elem;
@@ -62,11 +63,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     var schemaData = {};
     schemaData.subSchema = "No Schema"
     schemaData.ref = "No Ref";
-    console.log("schemapath " + schemapath);
-    console.log("method " + method);
-    console.log("subComponent " + subComponent);
-    console.log("status " + status);
-//this is terrible
+    //This is is terrible
   try {
       if(subComponent === 'responses') {
         elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
@@ -84,7 +81,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
           console.log(err);
       }
     }    
-    console.log("elem", elem);
+    
     elem = elem.split('\/')[(elem.split('\/').length) - 1]
     
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
@@ -107,7 +104,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
 // environment variable is set to `true`.  The header is configured in the pre-request script
 if(pm.request.headers.has("x-mock-response-code")) {
     var status = pm.request.headers.one("x-mock-response-code").disabled ? 200 : parseInt(pm.request.headers.get("x-mock-response-code"));
-    console.log("SETTUING STATUS: " + status);
+    
     status = (status == undefined || isNaN(status)  ? 200 : status);
 }
 
@@ -141,11 +138,11 @@ pm.sendRequest(apiRequest, function (err, res) {
 
         // Pull Schema from API response        
         var api_response = res.json();  
-        console.log("getting response: " ,api_response);
+        
         var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
-        console.log("got response");
+        
         var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
-        console.log("got request");
+        
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
         
