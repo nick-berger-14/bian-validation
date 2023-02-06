@@ -24,6 +24,8 @@ const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
 
 (new Function(yaml))();
 
+
+
   //Mutate the schema to require all properties, custom for each ref :(
   function requireAll (schema) {
     if(status != 200) {
@@ -124,6 +126,9 @@ pm.test("Status code is " + status, function () {
 
 
 
+
+
+
 const apiRequest = {
   url: api_url,
   method: 'GET',
@@ -156,7 +161,7 @@ pm.sendRequest(apiRequest, function (err, res) {
             });
         }
         else {
-                pm.test('No request body for path ' + path +  'from the ' + api + ' OpenAPI', function() {
+                pm.test(config.validate.requestBody ? 'No request body for path ' + path +  'from the ' + api + ' OpenAPI' : 'Skipping Request Body tests', function() {
                 pm.expect(true).to.be.true;
             });
         }
@@ -167,7 +172,7 @@ pm.sendRequest(apiRequest, function (err, res) {
             });
         }
         else {
-                pm.test('No response body for path ' + path +  'from the ' + api + ' OpenAPI', function() {
+                pm.test(config.validate.responseBody ? 'No request body for path ' + path +  'from the ' + api + ' OpenAPI' : 'Skipping Response Body tests', function() {
                 pm.expect(true).to.be.true;
             });
         }
