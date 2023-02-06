@@ -6,6 +6,7 @@
     }
     ,"mockResponseCode":"200"
     ,"useMockResponse":false
-    ,"forceConflict":false
+    ,"forceValidationConflict":false
+    ,"setAllPropertiesRequired":true
     
 }

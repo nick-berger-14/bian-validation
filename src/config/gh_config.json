@@ -1,21 +1,26 @@
 {
     "slug": "bidnessforb/bian-validation",
-    "files" : [
+    "files": [
         {
-        "path": "src/scripts/request/pre-request.js"
-        ,"ref": "simplify-variables"
-        ,"target": "CodeLibrary_preRequestScript"
-        }
-        ,{
-            "path": "src/scripts/request/test.js"
-            ,"ref": "simplify-variables"
-            ,"target": "CodeLibrary_testScript"
-        }
-        ,{
-            "path": "src/CodeLib/Postman/js_yaml.js"
-            ,"ref": "simplify-variables"
-            ,"target": "CodeLibrary_js_yaml"
-        }
-        
-    ]
-}
+            {
+                "path": "src/config/gh_config.json",
+                "ref": "simplify-variables",
+                "target": "ct_config"
+            },
+            {
+                "path": "src/scripts/request/pre-request.js",
+                "ref": "simplify-variables",
+                "target": "CodeLibrary_preRequestScript"
+            },
+            {
+                "path": "src/scripts/request/test.js",
+                "ref": "simplify-variables",
+                "target": "CodeLibrary_testScript"
+            },
+            {
+                "path": "src/CodeLib/Postman/js_yaml.js",
+                "ref": "simplify-variables",
+                "target": "CodeLibrary_js_yaml"
+            }
+        ]
+    }

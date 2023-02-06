@@ -44,7 +44,8 @@ const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
   function validate(data, schema) {
     var Ajv = require('ajv');
     ajv = new Ajv({logger: console});
-    schema = requireAll(schema);
+    if(config.setAllPropertiesRequired)
+      schema = requireAll(schema);
     const validate = ajv.compile(schema);
     const valid = validate(data);
     return valid;
@@ -111,7 +112,7 @@ if(pm.request.headers.has("x-mock-response-code")) {
 
 //Hardcode status to something different from that returned by the above
 //This code executes if the `force_conflict` collection variable is set to true AND `use_mock_response` is set to true AND `response-code` is not 200
-if(config.forceConflict)
+if(config.forceValidationConflict)
     status = 200;
 
 
