@@ -66,8 +66,8 @@ This example is validating requests against the [`Payment Initiation`](https://b
 
 The `ct_config` collection variable contains the various configuration switches consumed by the app.
 
-|---|---|---|
 |Property | Description | Type | 
+|---|---|---|
 | `api` | Properties necessary to retrieve the subject API from Postman | Object | 
 | `api.id` | The Postman UID for the subject API | String | 
 | api.versionId | The Postman API Version UID for the subject API | String | 
