@@ -2096,7 +2096,7 @@
 	],
 	"variable": [
 		{
-			"key": "ghci",
+			"key": "gh_config",
 			"value": "{\n    \"slug\": \"bidnessforb/bian-validation\",\n    \"files\" : [\n        {\n        \"path\": \"src/scripts/request/pre-request.js\"\n        ,\"ref\": \"simplify-variables\"\n        ,\"target\": \"CodeLibrary_preRequestScript\"\n        }\n        ,{\n            \"path\": \"src/scripts/request/test.js\"\n            ,\"ref\": \"simplify-variables\"\n            ,\"target\": \"CodeLibrary_testScript\"\n        }\n        ,{\n            \"path\": \"src/CodeLib/Postman/js_yaml.js\"\n            ,\"ref\": \"simplify-variables\"\n            ,\"target\": \"CodeLibrary_js_yaml\"\n        }\n        \n    ]\n}",
 			"type": "string"
 		},
