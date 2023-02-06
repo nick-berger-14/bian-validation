@@ -17,9 +17,10 @@ var schema_id = pm.environment.get("api_SchemaID");
 // Pull the OpenAPI from the Postman API
 // We're just after a schema here and it's not going to change, should we just go straight to BIAN?
 var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_version_id + '/schemas/' + schema_id;
-console.log("API URL: " + api_url);
+//console.log("API URL: " + api_url);
 
 const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
+console.log("YAML: ")
 console.log(yaml);
 (new Function(yaml))();
 
@@ -82,7 +83,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
       }
     }    
     
-    elem = elem.split('\/')[(elem.split('\/').length) - 1]
+    elem = elem.split('\/')[(elem.split('\/').length) - 1] 
     
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
     //this is terrible also
