@@ -14,6 +14,7 @@ var postman_api_key = pm.environment.get("Postman_APIKey");
 var api_id = config.api.id
 var api_version_id = config.api.versionID;
 var schema_id = config.api.schemaID;
+console.log("API ID: " + api_id + " API VERSION ID: " + api_version_id + " SCHEMA ID: " + schema_id);
 // Pull the OpenAPI from the Postman API
 // We're just after a schema here and it's not going to change, should we just go straight to BIAN?
 var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_version_id + '/schemas/' + schema_id;
