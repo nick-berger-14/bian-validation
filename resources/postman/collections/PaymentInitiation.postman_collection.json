@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "ddfcfa13-969e-4ec9-90fe-5bbb4a26dfd3",
-		"name": "PaymentInitiation",
+		"name": "Payment Initiation",
 		"description": "This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and orchestrates the transaction. It provides support for repeating/scheduled payments\n\nContact Support:\n Name: BIAN",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21868609"
@@ -2011,48 +2011,6 @@
 					]
 				}
 			]
-		},
-		{
-			"name": "Get File",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://api.github.com/repos/bidnessforb/bian-validation/contents/scripts/request/pre-request.js?ref=rationalize-variables",
-					"protocol": "https",
-					"host": [
-						"api",
-						"github",
-						"com"
-					],
-					"path": [
-						"repos",
-						"bidnessforb",
-						"bian-validation",
-						"contents",
-						"scripts",
-						"request",
-						"pre-request.js"
-					],
-					"query": [
-						{
-							"key": "ref",
-							"value": "rationalize-variables"
-						}
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"auth": {
