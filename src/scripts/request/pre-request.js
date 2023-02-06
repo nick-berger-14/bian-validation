@@ -16,7 +16,7 @@ paths.forEach(path => {
         schemaPath = schemaPath + "/" + path;
 });
 
-pm.environment.set("ct_runtime_schemaPath", schemaPath);
+pm.collectionVariables.set("ct_runtime_schemaPath", schemaPath);
 
 var config = JSON.parse(pm.collectionVariables.get("ct_config"));
 
