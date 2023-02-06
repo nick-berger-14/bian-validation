@@ -4,24 +4,23 @@ https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/test.js
 
 */
 
-
+const config = pm.collectionVariables.get('ct_config');
 var api = 'Payment Initiation'; //need to make this dynamic
 var path = pm.environment.get("ct_runtime_schemaPath");  //need to make this dynamic
 var method = pm.request.method.toLowerCase(); //Set dynamically
 // Pull variables needed to pull the OpenAPI
 // TODO: this should all be dynamic somehow, maybe by tracing request path
 var postman_api_key = pm.environment.get("Postman_APIKey");
-var api_id = pm.environment.get("api_ID");
-var api_version_id = pm.environment.get("api_VersionID");
-var schema_id = pm.environment.get("api_SchemaID");
+var api_id = config.api.id
+var api_version_id = config.api.versionID;
+var schema_id = config.api.schemaID;
 // Pull the OpenAPI from the Postman API
 // We're just after a schema here and it's not going to change, should we just go straight to BIAN?
 var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_version_id + '/schemas/' + schema_id;
 //console.log("API URL: " + api_url);
 
 const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
-console.log("YAML: ")
-console.log(yaml);
+
 (new Function(yaml))();
 
   //Mutate the schema to require all properties, custom for each ref :(

@@ -18,13 +18,6 @@ paths.forEach(path => {
 
 pm.environment.set("ct_runtime_schemaPath", schemaPath);
 
+var config = JSON.parse(pm.collectionVariables.get("ct_config"));
 
-
-if(pm.environment.get("ct_config_useMockResponse") === "true") {
-    console.log("SETTING MOCK ")
-    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{ct_config_mockResponseCode}}','disabled':false});
-}
-else {
-    console.log("NOT SETTING MOCK ")
-    pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'{{ct_config_mockResponseCode}}','disabled':true});
-}
+pm.request.headers.upsert({'key':'x-mock-response-code', 'value':'\'' + config.mockResponseCode + '\'','disabled':config.useMockResponse});
