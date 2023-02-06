@@ -70,11 +70,11 @@ The `ct_config` collection variable contains the various configuration switches 
 |---|---|---|
 | `api` | Properties necessary to retrieve the subject API from Postman | Object | 
 | `api.id` | The Postman UID for the subject API | String | 
-| api.versionId | The Postman API Version UID for the subject API | String | 
-| api.schemaID | The Postman API Schema UID for the subject API | String | 
-| mockResponseCode | Value to use in a dynamically created `x-mock-response-code` header to prompt the Postman mock server to return a specific response body keyed to that HTTP status | String |
-| useMockResponse | Flag to enable/disable the mock response feature | boolean |
-| forceConflict | Whether to simulate a failed validation | boolean | 
+| 'api.versionID' | The Postman API Version UID for the subject API | String | 
+| 'api.schemaID' | The Postman API Schema UID for the subject API | String | 
+| 'mockResponseCode' | Value to use in a dynamically created `x-mock-response-code` header to prompt the Postman mock server to return a specific response body keyed to that HTTP status | String |
+| 'useMockResponse' | Flag to enable/disable the mock response feature | boolean |
+| 'forceConflict' | Whether to simulate a failed validation | boolean | 
 
 ### Forcing Required Values
 
