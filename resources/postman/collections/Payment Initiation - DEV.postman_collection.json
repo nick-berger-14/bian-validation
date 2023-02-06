@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "f9287ba3-ff22-46cf-9cc4-0c67e1cb698a",
-		"name": "Payment Initiation - DEV",
+		"_postman_id": "ddfcfa13-969e-4ec9-90fe-5bbb4a26dfd3",
+		"name": "Payment Initiation-DEV",
 		"description": "This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and orchestrates the transaction. It provides support for repeating/scheduled payments\n\nContact Support:\n Name: BIAN",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21868609"
@@ -20,7 +20,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScripts'))"
+											"eval(pm.collectionVariables.get(\"CodeLibrary_preRequestScript\"));"
 										],
 										"type": "text/javascript"
 									}
@@ -29,7 +29,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_testScripts'))"
+											"eval(pm.collectionVariables.get(\"CodeLibrary_testScript\"));",
+											"",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -1753,7 +1755,7 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"eval(pm.collectionVariables.get('CodeLibrary_preRequestScripts'))",
+									"eval(pm.collectionVariables.get('CodeLibrary_preRequestScript'))",
 									"",
 									""
 								],
@@ -1764,7 +1766,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"eval(pm.collectionVariables.get('CodeLibrary_testScripts'))"
+									"eval(pm.collectionVariables.get('CodeLibrary_testScript'))"
 								],
 								"type": "text/javascript"
 							}
@@ -2009,6 +2011,48 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Get File",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/repos/bidnessforb/bian-validation/contents/scripts/request/pre-request.js?ref=rationalize-variables",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"repos",
+						"bidnessforb",
+						"bian-validation",
+						"contents",
+						"scripts",
+						"request",
+						"pre-request.js"
+					],
+					"query": [
+						{
+							"key": "ref",
+							"value": "rationalize-variables"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -2036,11 +2080,7 @@
 			"script": {
 				"type": "text/javascript",
 				"exec": [
-					"eval(pm.collectionVariables.get(\"code_getPreRequestScripts\"));",
-					"eval(pm.collectionVariables.get(\"code_getTestScripts\"));",
-					"",
-					"",
-					""
+					"eval(pm.environment.get('code_getGitHubArtifact'));"
 				]
 			}
 		},
@@ -2056,72 +2096,30 @@
 	],
 	"variable": [
 		{
-			"key": "baseUrl",
-			"value": "https://virtserver.swaggerhub.com/BIAN-3/BIAN/PaymentInitiation/11.0.0",
+			"key": "ghci",
+			"value": "{\n    \"slug\": \"bidnessforb/bian-validation\",\n    \"files\" : [\n        {\n        \"path\": \"src/scripts/request/pre-request.js\"\n        ,\"ref\": \"simplify-variables\"\n        ,\"target\": \"CodeLibrary_preRequestScript\"\n        }\n        ,{\n            \"path\": \"src/scripts/request/test.js\"\n            ,\"ref\": \"simplify-variables\"\n            ,\"target\": \"CodeLibrary_testScript\"\n        }\n        ,{\n            \"path\": \"src/CodeLib/Postman/js_yaml.js\"\n            ,\"ref\": \"simplify-variables\"\n            ,\"target\": \"CodeLibrary_js_yaml\"\n        }\n        \n    ]\n}",
 			"type": "string"
 		},
 		{
-			"key": "ct_config_mockResponseCode",
-			"value": "401",
+			"key": "ct_config",
+			"value": "{\n    \"api\" : {\n        \"id\":\"840e822a-3c44-4351-a2a2-cd0b123c834c\"\n        ,\"versionID\":\"83599f6e-5758-4ee2-ad1b-8ba3b4e49357\"\n        ,\"schemaID\":\"31ea04b8-0dfb-43ab-a768-a24d2b73e58d\"\n    }\n    ,\"mockResponseCode\":\"200\"\n    ,\"useMockResponse\":false\n    ,\"forceConflict\":false\n    \n}",
 			"type": "string"
 		},
 		{
-			"key": "CodeLibrary_preRequestScripts",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "CodeLibrary_testScripts",
+			"key": "CodeLibrary_js_yaml",
 			"value": ""
 		},
 		{
-			"key": "code_getPreRequestScripts",
-			"value": "/*\n * Example showing the code to retrieve snippets from GitHub\n * for use as pre-reqiuest scripts. Stored in the CodeLibrary_getPreRequestScripts\n * environment variable\n*/\n//Setup the URL components\nvar owner = pm.collectionVariables.get(\"owner\");\nvar repoSlug = pm.collectionVariables.get(\"GitHub_repoSlug\");\nvar path = pm.collectionVariables.get(\"GitHub_preRequestScriptsPath\");\nvar token = pm.environment.get(\"GitHub_PAT\");\nvar baseUrl = pm.collectionVariables.get(\"GitHub_APIBaseURL\");\nvar ref = pm.collectionVariables.get(\"GitHub_currentBranch\");\nconsole.log(\"REF: \" + ref);\nconsole.log(\"REF UNDEF: \" + (ref === ''));\n//Build the URL\nvar url = baseUrl + \"/repos/\" + repoSlug + \"/contents/\" + path + ((ref === undefined || ref === '') ? '' : '?ref=' + ref);\nconsole.log(\"GitHub Pre Request Script URL: \" + url);\nconst postRequest = {\n url: url,\n method: 'get',\n header: {\n 'Content-Type': 'application/json',\n 'Authorization': 'bearer ' + token\n }\n};\npm.sendRequest(postRequest, (err, res) => {\n var jsonData = JSON.parse(res.text());\nvar base64content = jsonData.content;\nvar buff = new Buffer(base64content, 'base64');\nvar content = buff.toString('ascii');\npm.collectionVariables.set(\"CodeLibrary_preRequestScripts\", content);\n});\n",
-			"type": "string"
+			"key": "CodeLibrary_preRequestScript",
+			"value": ""
 		},
 		{
-			"key": "code_getTestScripts",
-			"value": "/*\n * Example showing the code to retrieve snippets from GitHub\n * for use a Test scripts. Stored in the code_getTestScripts\n * environment variable\n*/\n//Setup the URL components\nvar owner = pm.collectionVariables.get(\"owner\");\nvar repoSlug = pm.collectionVariables.get(\"GitHub_repoSlug\");\nvar path = pm.collectionVariables.get(\"GitHub_testScriptsPath\");\nvar token = pm.environment.get(\"GitHub_PAT\");\nvar baseUrl = pm.collectionVariables.get(\"GitHub_APIBaseURL\");\nvar ref = pm.collectionVariables.get(\"GitHub_currentBranch\");\n//Build the URL\nconsole.log(\"REF: \", ref);\nconsole.log(\"REF UNDEF: \" + (ref === ''));\nvar url = baseUrl + \"/repos/\" + repoSlug + \"/contents/\" + path + ((ref === undefined || ref === '') ? '' : '?ref=' + ref);\nconsole.log(\"GitHub Test Script URL: \" + url);\nconst postRequest = {\n url: url,\n method: 'get',\n header: {\n 'Content-Type': 'application/json',\n 'Authorization': 'bearer ' + token\n }\n};\npm.sendRequest(postRequest, (err, res) => {\n var jsonData = JSON.parse(res.text());\nvar base64content = jsonData.content;\nvar buff = new Buffer(base64content, 'base64');\nvar content = buff.toString('ascii');\npm.collectionVariables.set(\"CodeLibrary_testScripts\", content);\n});\n",
-			"type": "string"
+			"key": "CodeLibrary_testScript",
+			"value": ""
 		},
 		{
-			"key": "GitHub_preRequestScriptsPath",
-			"value": "scripts/request/pre-request.js",
-			"type": "string"
-		},
-		{
-			"key": "GitHub_testScriptsPath",
-			"value": "scripts/request/test.js",
-			"type": "string"
-		},
-		{
-			"key": "GitHub_repoSlug",
-			"value": "bidnessforb/bian-validation",
-			"type": "string"
-		},
-		{
-			"key": "GitHub_APIBaseURL",
-			"value": "https://api.github.com",
-			"type": "string"
-		},
-		{
-			"key": "ct_config_forceConflict",
-			"value": "false",
-			"type": "string"
-		},
-		{
-			"key": "GitHub_schemaPath",
-			"value": "repos/bidnessforb/bian-validation/contents/resources/postman/schemas/PaymentInitiation-schema.yaml?ref=rationalize-variables",
-			"type": "string"
-		},
-		{
-			"key": "ct_runtime_schemaJson",
+			"key": "ct_runtime_schemaPath",
 			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "GitHub_currentBranch",
-			"value": "rationalize-variables",
 			"type": "string"
 		}
 	]
