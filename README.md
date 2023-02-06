@@ -62,6 +62,20 @@ An example `gh_config` is stored in the repo [here](https://github.com/BidnessFo
 
 This example is validating requests against the [`Payment Initiation`](https://bian.org/semantic-apis/payment-initiation/) API maintained by BIAN.  This API was previously loaded into Postman in the [Open Technologies team BIAN Workspace](https://www.postman.com/postman/workspace/postman-open-technologies-banking-industry-architecture-network-bian/api/840e822a-3c44-4351-a2a2-cd0b123c834c).  
 
+## Configuring the App
+
+The `ct_config` collection variable contains the various configuration switches consumed by the app.
+
+|---|---|---|
+|Property | Description | Type | 
+| `api` | Properties necessary to retrieve the subject API from Postman | Object | 
+| `api.id` | The Postman UID for the subject API | String | 
+| api.versionId | The Postman API Version UID for the subject API | String | 
+| api.schemaID | The Postman API Schema UID for the subject API | String | 
+| mockResponseCode | Value to use in a dynamically created `x-mock-response-code` header to prompt the Postman mock server to return a specific response body keyed to that HTTP status | String |
+| useMockResponse | Flag to enable/disable the mock response feature | boolean |
+| forceConflict | Whether to simulate a failed validation | boolean | 
+
 ### Forcing Required Values
 
 Because the original BIAN API did not have any required properties in its Request and Response body definitions, everything would validate against it, including an empty request.  As an interim fix the `[requireAll](https://github.com/BidnessForB/bian-validation/blob/b1aaf7b85dba031999f744bdfca9b4abfb582589/src/scripts/request/test.js#L28)` function was added to the test script to dynamically update the schema at runtime, making all properties `required`.  
