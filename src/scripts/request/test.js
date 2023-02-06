@@ -147,7 +147,8 @@ pm.sendRequest(apiRequest, function (err, res) {
         
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
-        
+        console.log("Config REQ: " + config.validate.requestBody);
+        console.log("Config REQ: " + config.validate.responseBody);
         if(reqBodySchemaData.ref !== 'No Ref' && config.validate.requestBody) {
             pm.test('Validating request body against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
                 const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchemaData.subSchema);
