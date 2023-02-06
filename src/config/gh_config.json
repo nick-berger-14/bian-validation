@@ -1,7 +1,7 @@
 {
     "slug": "bidnessforb/bian-validation",
     "files": [
-        {
+        
             {
                 "path": "src/config/gh_config.json",
                 "ref": "simplify-variables",
