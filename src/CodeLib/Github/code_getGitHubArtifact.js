@@ -1,8 +1,12 @@
 /*
  * Example showing the code to retrieve snippets from GitHub
- * for use as pre-reqiuest scripts. Stored in the CodeLibrary_getPreRequestScripts
- * environment variable
+ * for use as pre-reqiuest scripts. Stored in the code_getGitHubArtifact
+ * environment variable.
+ * 
+ * NOTE: Pushing this code to the SCM WILL NOT update it in relevant collections.  Copy and paste it into 
+ * the Environment variable in the Postman UX.
 */
+
 //Setup the URL components
 var ghci = JSON.parse(pm.collectionVariables.get('gh_config'));
 console.log(ghci);
@@ -28,11 +32,15 @@ for(i = 0; i < ghci.files.length; i++)
 function sendRequest(postRequest, target) {
     
     pm.sendRequest(postRequest, (err,res) =>  {
+        //JSON-ize the response
         var jsonData = JSON.parse(res.text());
+        //Get the base64 git BLOB data from the response
         var base64content = jsonData.content;
-        var buff = new Buffer(base64content, 'base64');
+        //Decode the base64
+        var buff = Buffer.from(base64content, 'base64');
+        //Drop the decoded content to a UTF8 string
         var content = buff.toString('ascii');
-    
+        //Set the value of the collection variable 
         pm.collectionVariables.set(target, content);
     });
 }

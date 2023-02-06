@@ -1,6 +1,24 @@
 # bian-validation
 
-Experment to test boot-strapping Postman test scripts from GitHub as well as validating Request and Response bodies in real-time using AJV.  After a simple configuration process, pre-request and test scripts are dynamically loaded from GitHub and executed against every request in the collection.  Pre-request and test scripts can be edited in your favorite editor, committed to GitHub, and will immediately run in Postman.  
+Expermental collection to test/validate several concepts at once.
+
+### SCM Bootstrapping
+
+This collection loads all pre-request and test scripts as well as application configuration data at runtime from an SCM (GitHub in this case).  This provides several benefits for script editors and testers:
+1. Maintain all script code in a single location
+1. Implement Git-flow SDLC backed by the SCM.  
+1. Use your favorite code editor to edit scripts.
+1. Update scripts for an entire collection by simply pushing to GitHub.
+
+### Variable rationalization via JSON
+Configuration data for this application are maintained in single collection/environment variables as JSON objects containing multiple properties.  This vastly simplifies the management of more complex applications in a couple of important ways:
+1. Reducing the number of variables to manage in the Postman UX.
+1. Allow ingestion of complete configuration data with a single `pm.collectionVariable.get()` call.
+1. Managed/edit configuration files in your favorite code editor, push to SCM and the your app configuration is automatically updated.  
+1. Leverage configuration data in any number of locations.
+
+### Dynamic contract validation
+The application being used to test these concepts validates request and response body information against an API schema stored in Postman.  
 
 ## Setup
 1. Clone the repo
@@ -18,34 +36,36 @@ The intention is to provide a way to pre-load Pre-Request and Test scripts, as w
 
 ```JSON
 {
-    "slug": "bidnessforb/bian-validation"
-    ,"ref": "simplify-variables"
-    ,"files" : [
+    "slug": "bidnessforb/bian-validation",
+    "ref": "simplify-variables",
+    "files": [
         {
-        "path": "src/scripts/request/pre-request.js"
-        
-        ,"target": "CodeLibrary_preRequestScript"
+            "path": "src/config/ct_config.json",  //The application configuration, see below
+            "target": "ct_config"
+        },
+        {
+            "path": "src/scripts/request/pre-request.js",
+            "target": "CodeLibrary_preRequestScript"
+        },
+        {
+            "path": "src/scripts/request/test.js",
+            "target": "CodeLibrary_testScript"
+        },
+        {
+            "path": "src/CodeLib/Postman/js_yaml.js",
+            "target": "CodeLibrary_js_yaml"
         }
-        ,{
-            "path": "src/scripts/request/test.js"
-            ,"ref": "simplify-variables"
-            ,"target": "CodeLibrary_testScript"
-        }
-        ,{
-            "path": "src/CodeLib/Postman/js_yaml.js"
-            ,"ref": "simplify-variables"
-            ,"target": "CodeLibrary_js_yaml"
-        }
-        
     ]
 }
+
+
 ```
 | Property | Description | Type |
 |----|----|----|
 | `slug` | The GitHub repo slug, eg `owner/repo` | String |
-| `files` | An array of one or more files to retrieve from GitHub | String array | 
-| `path` | The path to the target file from the root of the repo | String |
 | `ref` | The Git REF, generally the branch, from which to retrieve the file.  Set to `null` to default to the default branch | String or null |
+| `files` | An array of one or more files to retrieve from GitHub | String array | 
+| `files.path` | The path to the target file from the root of the repo | String |
 | `target`| The target collection variable to populate with the file retrieved from GitHub.  This variable will be updated if it exists or created if it does not | String | 
 
 An example `gh_config` is stored in the repo [here](https://github.com/BidnessForB/bian-validation/blob/simplify-variables/src/config/gh_config.json)
@@ -55,7 +75,7 @@ An example `gh_config` is stored in the repo [here](https://github.com/BidnessFo
 1. Clone the repo, if you have not done so already
 2. Create a branch, e.g., `update-scripts`
 3. Edit your scripts
-4. Update the value of the `ref` property for each of the `file` elements in the `gh_config` collection variable
+4. Update the value of the `ref` property of the `gh_config` collection variable
 5. Commit to Git and push to GitHub
 6. Run your request, the scripts are updated every time a Request is executed.  
 
@@ -75,11 +95,14 @@ The `ct_config` collection variable contains the various configuration switches 
 | `api.schemaID`| The Postman API Schema UID for the subject API | String | 
 | `mockResponseCode` | Value to use in a dynamically created `x-mock-response-code` header to prompt the Postman mock server to return a specific response body keyed to that HTTP status | String |
 | `useMockResponse` | Flag to enable/disable the mock response feature | boolean |
-| `forceConflict` | Whether to simulate a failed validation | boolean | 
+| `forceValidationConflict` | Whether to simulate a failed validation | boolean | 
+| `setAllPropertiesRequired` | Whether to edit the schema on the fly, creating a `required` element with all listed properties.  Helpful when validating against some industry API standards with no required elements against which nearly anything will validate, including an empty body.
 
 ### Forcing Required Values
 
 Because the original BIAN API did not have any required properties in its Request and Response body definitions, everything would validate against it, including an empty request.  As an interim fix the [requireAll](https://github.com/BidnessForB/bian-validation/blob/b1aaf7b85dba031999f744bdfca9b4abfb582589/src/scripts/request/test.js#L28) function was added to the test script to dynamically update the schema at runtime, making all properties `required`.  
+
+To enable the `requirAll` feature, set the `setAllPropertiesRequired` property of the `ct_config` collection variable to `true`:
 
 ### Dymamic Mock Responses
 
@@ -96,7 +119,7 @@ If desired for demo purposes, you can "fool" the scripts into believing that the
 
 To force a conflict:
 1. Configure a mock response code other than 200.
-2. Set the `forceConflict` property of the `ct_config` collection variable to `true`
+2. Set the `forceValidationConflict` property of the `ct_config` collection variable to `true`
 
 ### Where stuff is
 
