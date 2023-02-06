@@ -4,22 +4,24 @@ https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/test.js
 
 */
 
-
+const config = JSON.parse(pm.collectionVariables.get('ct_config'));
 var api = 'Payment Initiation'; //need to make this dynamic
-var path = pm.environment.get("ct_runtime_schemaPath");  //need to make this dynamic
+var path = pm.collectionVariables.get("ct_runtime_schemaPath");  //need to make this dynamic
 var method = pm.request.method.toLowerCase(); //Set dynamically
 // Pull variables needed to pull the OpenAPI
 // TODO: this should all be dynamic somehow, maybe by tracing request path
 var postman_api_key = pm.environment.get("Postman_APIKey");
-var api_id = pm.environment.get("api_ID");
-var api_version_id = pm.environment.get("api_VersionID");
-var schema_id = pm.environment.get("api_SchemaID");
+var api_id = config.api.id
+var api_version_id = config.api.versionID;
+var schema_id = config.api.schemaID;
+console.log("API ID: " + api_id + " API VERSION ID: " + api_version_id + " SCHEMA ID: " + schema_id);
 // Pull the OpenAPI from the Postman API
 // We're just after a schema here and it's not going to change, should we just go straight to BIAN?
 var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_version_id + '/schemas/' + schema_id;
-console.log("API URL: " + api_url);
+//console.log("API URL: " + api_url);
 
-const yaml =  pm.environment.get('CodeLibrary_js_yaml');
+const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
+
 (new Function(yaml))();
 
   //Mutate the schema to require all properties, custom for each ref :(
@@ -42,7 +44,8 @@ const yaml =  pm.environment.get('CodeLibrary_js_yaml');
   function validate(data, schema) {
     var Ajv = require('ajv');
     ajv = new Ajv({logger: console});
-    schema = requireAll(schema);
+    if(config.setAllPropertiesRequired)
+      schema = requireAll(schema);
     const validate = ajv.compile(schema);
     const valid = validate(data);
     return valid;
@@ -54,7 +57,7 @@ function getSubSchemaYaml(schemapath, method, schemaYaml, type) {
 };
 
 function getSubSchemaJson(schemapath, method, schema, type) {
-    console.log("SCHEMA: ", schema);
+    
     var subComponent = type === 'request' ? 'requestBody' : 'responses';
     var subRef = type === 'request' ?'requestBodies' :'responses'; 
     var elem;
@@ -62,11 +65,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     var schemaData = {};
     schemaData.subSchema = "No Schema"
     schemaData.ref = "No Ref";
-    console.log("schemapath " + schemapath);
-    console.log("method " + method);
-    console.log("subComponent " + subComponent);
-    console.log("status " + status);
-//this is terrible
+    //This is is terrible
   try {
       if(subComponent === 'responses') {
         elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
@@ -84,8 +83,8 @@ function getSubSchemaJson(schemapath, method, schema, type) {
           console.log(err);
       }
     }    
-    console.log("elem", elem);
-    elem = elem.split('\/')[(elem.split('\/').length) - 1]
+    
+    elem = elem.split('\/')[(elem.split('\/').length) - 1] 
     
     var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
     //this is terrible also
@@ -107,13 +106,13 @@ function getSubSchemaJson(schemapath, method, schema, type) {
 // environment variable is set to `true`.  The header is configured in the pre-request script
 if(pm.request.headers.has("x-mock-response-code")) {
     var status = pm.request.headers.one("x-mock-response-code").disabled ? 200 : parseInt(pm.request.headers.get("x-mock-response-code"));
-    console.log("SETTUING STATUS: " + status);
+    
     status = (status == undefined || isNaN(status)  ? 200 : status);
 }
 
 //Hardcode status to something different from that returned by the above
 //This code executes if the `force_conflict` collection variable is set to true AND `use_mock_response` is set to true AND `response-code` is not 200
-if(pm.collectionVariables.get("ct_config_forceConflict") === 'true')
+if(config.forceValidationConflict)
     status = 200;
 
 
@@ -141,11 +140,11 @@ pm.sendRequest(apiRequest, function (err, res) {
 
         // Pull Schema from API response        
         var api_response = res.json();  
-        console.log("getting response: " ,api_response);
+        
         var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
-        console.log("got response");
+        
         var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
-        console.log("got request");
+        
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
         
