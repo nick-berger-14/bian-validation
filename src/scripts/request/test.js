@@ -148,7 +148,7 @@ pm.sendRequest(apiRequest, function (err, res) {
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
         
-        if(reqBodySchemaData.ref !== 'No Ref') {
+        if(reqBodySchemaData.ref !== 'No Ref' && config.validate.requestBody) {
             pm.test('Validating request body against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
                 const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchemaData.subSchema);
                 pm.expect(reqValid).to.be.true;
@@ -159,7 +159,7 @@ pm.sendRequest(apiRequest, function (err, res) {
                 pm.expect(true).to.be.true;
             });
         }
-        if(resBodySchemaData.ref !== 'No Ref') {
+        if(resBodySchemaData.ref !== 'No Ref' && config.validate.responseBody) {
             pm.test('Validating response body against ' + resBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
                 
                 pm.expect(bodyValid).to.be.true;

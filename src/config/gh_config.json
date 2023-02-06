@@ -1,6 +1,6 @@
 {
     "slug": "bidnessforb/bian-validation",
-    "ref": null,
+    "ref": "validate-parameters",
     "files": [
         {
             "path": "src/config/ct_config.json",
