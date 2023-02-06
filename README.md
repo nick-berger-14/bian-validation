@@ -130,7 +130,9 @@ To force a conflict:
 | Test Script | src/scripts/request/test.js | The test script loaded from GitHub and executed for every request in the collection | 
 | Pre Request Script | src/scripts/request/pre-request.js | The pre-request script loaded from GitHub and executed for every request in the collection | 
 | code_getGitHubArtifact.js | src/CodeLib/GitHub/code_getGitHubArtifact.js | A reference copy of the code which retrieves aftifacts from GitHub.  This file must be maintained in the `code_getGitHubArtifact` environment variable if any changes are made.  | 
-| js_yaml.js | src/CodeLib/GitHub/js_yaml.js | Source code for the [js-yaml](https://github.com/nodeca/js-yaml) YAML -> JSON conversion utility | |
+| js_yaml.js | src/CodeLib/GitHub/js_yaml.js | Source code for the [js-yaml](https://github.com/nodeca/js-yaml) YAML -> JSON conversion utility | 
+| 
+
 
 
 
