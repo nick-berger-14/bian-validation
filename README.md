@@ -70,19 +70,19 @@ The `ct_config` collection variable contains the various configuration switches 
 |---|---|---|
 | `api` | Properties necessary to retrieve the subject API from Postman | Object | 
 | `api.id` | The Postman UID for the subject API | String | 
-| 'api.versionID' | The Postman API Version UID for the subject API | String | 
-| 'api.schemaID' | The Postman API Schema UID for the subject API | String | 
-| 'mockResponseCode' | Value to use in a dynamically created `x-mock-response-code` header to prompt the Postman mock server to return a specific response body keyed to that HTTP status | String |
-| 'useMockResponse' | Flag to enable/disable the mock response feature | boolean |
-| 'forceConflict' | Whether to simulate a failed validation | boolean | 
+| `api.versionID` | The Postman API Version UID for the subject API | String | 
+| `api.schemaID`| The Postman API Schema UID for the subject API | String | 
+| `mockResponseCode` | Value to use in a dynamically created `x-mock-response-code` header to prompt the Postman mock server to return a specific response body keyed to that HTTP status | String |
+| `useMockResponse` | Flag to enable/disable the mock response feature | boolean |
+| `forceConflict` | Whether to simulate a failed validation | boolean | 
 
 ### Forcing Required Values
 
-Because the original BIAN API did not have any required properties in its Request and Response body definitions, everything would validate against it, including an empty request.  As an interim fix the `[requireAll](https://github.com/BidnessForB/bian-validation/blob/b1aaf7b85dba031999f744bdfca9b4abfb582589/src/scripts/request/test.js#L28)` function was added to the test script to dynamically update the schema at runtime, making all properties `required`.  
+Because the original BIAN API did not have any required properties in its Request and Response body definitions, everything would validate against it, including an empty request.  As an interim fix the [requireAll](https://github.com/BidnessForB/bian-validation/blob/b1aaf7b85dba031999f744bdfca9b4abfb582589/src/scripts/request/test.js#L28) function was added to the test script to dynamically update the schema at runtime, making all properties `required`.  
 
 ### Dymamic Mock Responses
 
-By default the existing Postman Mock Server will return a 200 status code for the requests as currently configured.  However, you can specify another HTTP response code to be used via a dynamically set `[x-mock-response-code](https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/mock-with-api/#matching-a-response-name-or-id)` header.  To use a mock response code:
+By default the existing Postman Mock Server will return a 200 status code for the requests as currently configured.  However, you can specify another HTTP response code to be used via a dynamically set [x-mock-response-code](https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/mock-with-api/#matching-a-response-name-or-id) header.  To use a mock response code:
 1. Update the `ct_config` environment variable, setting:
     * `mockResponseCode` to the status code you wish to simulate, e.g., 401
     * `useMockResponse` to `true`
