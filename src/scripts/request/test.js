@@ -19,7 +19,7 @@ var schema_id = pm.environment.get("api_SchemaID");
 var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_version_id + '/schemas/' + schema_id;
 console.log("API URL: " + api_url);
 
-const yaml =  pm.environment.get('CodeLibrary_js_yaml');
+const yaml =  pm.collection.get('CodeLibrary_js_yaml');
 (new Function(yaml))();
 
   //Mutate the schema to require all properties, custom for each ref :(
