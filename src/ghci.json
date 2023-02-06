@@ -1,0 +1,21 @@
+{
+    "slug": "bidnessforb/bian-validation",
+    "files" : [
+        {
+        "path": "src/scripts/request/pre-request.js"
+        ,"ref": null
+        ,"target": "CodeLibrary_preRequestScript"
+        }
+        ,{
+            "path": "src/scripts/request/test.js"
+            ,"ref": null
+            ,"target": "CodeLibrary_testScript"
+        }
+        ,{
+            "path": "src/CodeLib/Postman/js_yaml.js"
+            ,"ref": null
+            ,"target": "CodeLibrary_js_yaml"
+        }
+        
+    ]
+}
