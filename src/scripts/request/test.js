@@ -56,7 +56,7 @@ const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
 function getSubSchemaYaml(schemapath, method, schemaYaml, type) {
     
     var schemaJson = jsyaml.load(schemaYaml);
-    console.log(schemaJson);
+    console.log(JSON.stringify(schemaJson));
     return getSubSchemaJson(schemapath, method, schemaJson, type);
 };
 
