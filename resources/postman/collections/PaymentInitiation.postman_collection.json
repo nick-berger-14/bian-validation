@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "e8791203-83c7-4992-906b-cf1d9d143417",
-		"name": "Payment Initiation",
+		"_postman_id": "c2a926e9-2d1b-41dc-b3ca-fc219aba4b64",
+		"name": "Payment Initiation-DEV",
 		"description": "This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and orchestrates the transaction. It provides support for repeating/scheduled payments\n\nContact Support:\n Name: BIAN",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21868609"
@@ -20,7 +20,9 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get(\"CodeLibrary_preRequestScript\"));"
+											"eval(pm.collectionVariables.get(\"CodeLibrary_preRequestScript\"));",
+											"",
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -73,7 +75,8 @@
 										{
 											"key": "paymentinitiationid",
 											"value": "ipsum aliqua minim",
-											"description": "(Required) "
+											"type": "string",
+											"description": "(required)"
 										}
 									]
 								},
@@ -341,7 +344,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScripts'))"
+											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScript'))"
 										],
 										"type": "text/javascript"
 									}
@@ -350,7 +353,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_testScripts'))"
+											"eval(pm.collectionVariables.get('CodeLibrary_testScript'))"
 										],
 										"type": "text/javascript"
 									}
@@ -652,7 +655,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScripts'))"
+											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScript'))"
 										],
 										"type": "text/javascript"
 									}
@@ -661,7 +664,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_testScripts'))"
+											"eval(pm.collectionVariables.get('CodeLibrary_testScript'))"
 										],
 										"type": "text/javascript"
 									}
@@ -1019,7 +1022,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScripts'))"
+											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScript'))"
 										],
 										"type": "text/javascript"
 									}
@@ -1028,7 +1031,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_testScripts'))"
+											"eval(pm.collectionVariables.get('CodeLibrary_testScript'))"
 										],
 										"type": "text/javascript"
 									}
@@ -1386,7 +1389,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScripts'))"
+											"eval(pm.collectionVariables.get('CodeLibrary_preRequestScript'))"
 										],
 										"type": "text/javascript"
 									}
@@ -1395,7 +1398,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"eval(pm.collectionVariables.get('CodeLibrary_testScripts'))"
+											"eval(pm.collectionVariables.get('CodeLibrary_testScript'))"
 										],
 										"type": "text/javascript"
 									}
@@ -2055,7 +2058,7 @@
 	"variable": [
 		{
 			"key": "gh_config",
-			"value": "{\n    \"slug\": \"bidnessforb/bian-validation\",\n    \"ref\": null,\n    \"files\": [\n        {\n            \"path\": \"src/config/ct_config.json\",\n            \"target\": \"ct_config\"\n        },\n        {\n            \"path\": \"src/scripts/request/pre-request.js\",\n            \"target\": \"CodeLibrary_preRequestScript\"\n        },\n        {\n            \"path\": \"src/scripts/request/test.js\",\n            \"target\": \"CodeLibrary_testScript\"\n        },\n        {\n            \"path\": \"src/CodeLib/Postman/js_yaml.js\",\n            \"target\": \"CodeLibrary_js_yaml\"\n        }\n    ]\n}\n\n",
+			"value": "{\n    \"slug\": \"bidnessforb/bian-validation\",\n    \"ref\": \"validate-parameters\",\n    \"files\": [\n        {\n            \"path\": \"src/config/ct_config.json\",\n            \"target\": \"ct_config\"\n        },\n        {\n            \"path\": \"src/scripts/request/pre-request.js\",\n            \"target\": \"CodeLibrary_preRequestScript\"\n        },\n        {\n            \"path\": \"src/scripts/request/test.js\",\n            \"target\": \"CodeLibrary_testScript\"\n        },\n        {\n            \"path\": \"src/CodeLib/Postman/js_yaml.js\",\n            \"target\": \"CodeLibrary_js_yaml\"\n        }\n    ]\n}\n\n",
 			"type": "string"
 		},
 		{
