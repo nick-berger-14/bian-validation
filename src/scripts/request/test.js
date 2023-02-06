@@ -54,7 +54,9 @@ const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
 };
 
 function getSubSchemaYaml(schemapath, method, schemaYaml, type) {
+    
     var schemaJson = jsyaml.load(schemaYaml);
+    console.log(schemaJson);
     return getSubSchemaJson(schemapath, method, schemaJson, type);
 };
 
@@ -145,6 +147,7 @@ pm.sendRequest(apiRequest, function (err, res) {
 
         // Pull Schema from API response        
         var api_response = res.json();  
+        
         
         var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
         
