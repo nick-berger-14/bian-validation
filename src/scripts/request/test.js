@@ -4,7 +4,7 @@ https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/test.js
 
 */
 
-const config = pm.collectionVariables.get('ct_config');
+const config = JSON.parse(pm.collectionVariables.get('ct_config'));
 var api = 'Payment Initiation'; //need to make this dynamic
 var path = pm.environment.get("ct_runtime_schemaPath");  //need to make this dynamic
 var method = pm.request.method.toLowerCase(); //Set dynamically
