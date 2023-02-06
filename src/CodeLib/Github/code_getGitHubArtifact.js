@@ -10,11 +10,10 @@ token = pm.environment.get("GitHub_PAT");
 for(i = 0; i < ghci.files.length; i++)
 {
     var file = ghci.files[i];
-    //var baseUrl = pm.collectionVariables.get("GitHub_APIBaseURL");
+    
     baseUrl = 'https://api.github.com'
-    //var ref = pm.collectionVariables.get("GitHub_currentBranch");
     //Build the URL.  If ref is defined and not '', append it to pull from the specific ref (branch)
-    var url = baseUrl + "/repos/" + ghci.slug + "/contents/" + file.path + ((file.ref === undefined || file.ref === null || file.ref === '') ? '' : '?ref=' + file.ref);
+    var url = baseUrl + "/repos/" + ghci.slug + "/contents/" + file.path + ((ghci.ref === undefined || ghci.ref === null || ghci.ref === '') ? '' : '?ref=' + ghci.ref);
     const postRequest = {
     url: url,
     method: 'get',

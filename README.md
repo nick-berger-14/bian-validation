@@ -18,11 +18,12 @@ The intention is to provide a way to pre-load Pre-Request and Test scripts, as w
 
 ```JSON
 {
-    "slug": "bidnessforb/bian-validation",
-    "files" : [
+    "slug": "bidnessforb/bian-validation"
+    ,"ref": "simplify-variables"
+    ,"files" : [
         {
         "path": "src/scripts/request/pre-request.js"
-        ,"ref": "simplify-variables"
+        
         ,"target": "CodeLibrary_preRequestScript"
         }
         ,{
