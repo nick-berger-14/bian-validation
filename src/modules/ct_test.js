@@ -2,12 +2,9 @@
 var ctutil = {};
 
 
-ctutil.setPMRequest = function(obj) {
-    this.Request = obj;
-};
 
 //Mutate the schema to require all properties, custom for each ref :(
-ctutil.requireAll = function (schema) {
+function requireAll (schema) {
         if(status != 200) {
             return schema;
         }
@@ -23,7 +20,7 @@ ctutil.requireAll = function (schema) {
         return newSchema
       };
     
-ctutil.validate  = function (data, schema) {
+function validate  (data, schema) {
         var Ajv = require('ajv');
         ajv = new Ajv({logger: console});
         if(config.setAllPropertiesRequired)
@@ -33,7 +30,7 @@ ctutil.validate  = function (data, schema) {
         return valid;
     };
     
-ctutil.resolveSchemaRef = function (apischema, ref) {
+function resolveSchemaRef (apischema, ref) {
       //var refElems = paramsRef.split('\/');
       var refElems = ref.split('\/');
       var elem = apischema;
@@ -46,11 +43,11 @@ ctutil.resolveSchemaRef = function (apischema, ref) {
       return elem;
     }
     
-ctutil.getRequestSchema = function (apischema, requestPath, method) {
+function getRequestSchema (apischema, requestPath, method) {
       return apischema.paths[requestPath][method];
     }
     
-ctutil.getResponseSchema = function (apischema, requestPath, method, status, contentType) {
+function getResponseSchema (apischema, requestPath, method, status, contentType) {
       contentType = 'application/json'; //hard coded for now till we figure out how to get it out of the headers.
       var respSchema = apischema.paths[requestPath][method].responses[status];
       var respObj;
@@ -58,9 +55,9 @@ ctutil.getResponseSchema = function (apischema, requestPath, method, status, con
           return null;
       }
       if(respSchema.$ref !== undefined) {
-          respObj = this.resolveSchemaRef(apischema, respSchema.$ref);
+          respObj = resolveSchemaRef(apischema, respSchema.$ref);
           if(respObj.content[contentType].schema.$ref !== undefined) {
-              respSchema = this.resolveSchemaRef(apischema, respObj.content[contentType].schema.$ref);
+              respSchema = resolveSchemaRef(apischema, respObj.content[contentType].schema.$ref);
               schemaData = {};
               schemaData.subSchema = respSchema;
               schemaData.ref = respObj.content[contentType].schema.$ref;
@@ -72,16 +69,16 @@ ctutil.getResponseSchema = function (apischema, requestPath, method, status, con
     }
     
     
-ctutil.getSubSchemaYaml = function (schemapath, method, schemaYaml, type) {
+function getSubSchemaYaml (schemapath, method, schemaYaml, type) {
         
         var schemaJson = jsyaml.load(schemaYaml);
         return getSubSchemaJson(schemapath, method, schemaJson, type);
     };
 
-ctutil.validatePropertyList =  function (apischema, reqSchema, reqJson) {
+function validatePropertyList =  function (apischema, reqSchema, reqJson) {
         var paramSchema;
         
-        var request = new this.Request(reqJson);
+        var request = new Request(reqJson);
         
         var curSchemaParam;
         var validationResults = [];
@@ -95,7 +92,7 @@ ctutil.validatePropertyList =  function (apischema, reqSchema, reqJson) {
             //is it a ref?
             if('$ref' in curSchemaParam) {
                 //resolve the ref
-                curSchemaParam = this.resolveSchemaRef(apischema, curSchemaParam.$ref);
+                curSchemaParam = resolveSchemaRef(apischema, curSchemaParam.$ref);
             }
             switch (curSchemaParam.in) {
                 case 'path':
