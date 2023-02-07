@@ -67,13 +67,18 @@ function resolveSchemaRef(apischema, ref) {
 }
 
 function getRequestSchema(apischema, requestPath, method) {
-  return apischema.paths[requestPath][method];
+  var schemaData = {};
+  schemaData.schema = apischema.paths[requestPath][method];
+  schemaData.ref = requestSchema.requestBody.$ref
+  return schemaData;
+  
 }
 
 function getResponseSchema(apischema, requestPath, method, status, contentType) {
   contentType = 'application/json'; //hard coded for now till we figure out how to get it out of the headers.
   var respSchema = apischema.paths[requestPath][method].responses[status];
   var respObj;
+
   if(respSchema === undefined || respSchema === null) {
       return null;
   }
@@ -193,7 +198,7 @@ pm.sendRequest(apiRequest, function (err, res) {
         var resBodySchemaData = getResponseSchema(schemaJson, path, method, status, 'application/json');
         var reqBodySchemaData = getRequestSchema(schemaJson, path, method);
         console.log("reqBodySchemaData: ", reqBodySchemaData);
-        var reqBodySchema = resolveSchemaRef(schemaJson, reqBodySchemaData.requestBody.$ref);
+        var reqBodySchema = resolveSchemaRef(schemaJson, reqBodySchemaData.schema.requestBody.$ref);
         
         //var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
         
