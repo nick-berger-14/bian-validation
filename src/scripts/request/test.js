@@ -66,7 +66,13 @@ return elem;
 }
 
 function getRequestSchema (apischema, requestPath, method) {
-return apischema.paths[requestPath][method];
+  var schemaData = {};
+  schemaData.schema = apischema.paths[requestPath][method];
+  schemaData.ref = schemaData.requestBody.$ref;
+  schemaData.schema = resolveSchemaRef(schemaData.requestBody.$ref);
+  return schemaData;
+
+  
 }
 
 function getResponseSchema (apischema, requestPath, method, status, contentType) {
