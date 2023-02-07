@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a2734d27-49b1-4506-9635-86eee5b69528",
+		"_postman_id": "03f883e0-7852-43a1-abd5-dd68baa9d4a1",
 		"name": "Payment Initiation",
 		"description": "This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and orchestrates the transaction. It provides support for repeating/scheduled payments\n\nContact Support:\n Name: BIAN",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -2055,29 +2055,7 @@
 	"variable": [
 		{
 			"key": "gh_config",
-			"value": "{\n    \"slug\": \"bidnessforb/bian-validation\",\n    \"ref\": \"validate-parameters\",\n    \"files\": [\n        {\n            \"path\": \"src/config/ct_config.json\",\n            \"target\": \"ct_config\"\n        },\n        {\n            \"path\": \"src/scripts/request/pre-request.js\",\n            \"target\": \"CodeLibrary_preRequestScript\"\n        },\n        {\n            \"path\": \"src/scripts/request/test.js\",\n            \"target\": \"CodeLibrary_testScript\"\n        },\n        {\n            \"path\": \"src/CodeLib/Postman/js_yaml.js\",\n            \"target\": \"CodeLibrary_js_yaml\"\n        }\n    ]\n}",
-			"type": "string"
-		},
-		{
-			"key": "ct_config",
-			"value": "{\n    \"api\" : {\n        \"id\":\"840e822a-3c44-4351-a2a2-cd0b123c834c\"\n        ,\"versionID\":\"83599f6e-5758-4ee2-ad1b-8ba3b4e49357\"\n        ,\"schemaID\":\"31ea04b8-0dfb-43ab-a768-a24d2b73e58d\"\n    }\n    ,\"mockResponseCode\":\"200\"\n    ,\"useMockResponse\":false\n    ,\"forceConflict\":false\n    \n}",
-			"type": "string"
-		},
-		{
-			"key": "CodeLibrary_js_yaml",
-			"value": ""
-		},
-		{
-			"key": "CodeLibrary_preRequestScript",
-			"value": ""
-		},
-		{
-			"key": "CodeLibrary_testScript",
-			"value": ""
-		},
-		{
-			"key": "ct_runtime_schemaPath",
-			"value": "",
+			"value": "{\n    \"slug\": \"bidnessforb/bian-validation\",\n    \"ref\": \"simplify-variables\",\n    \"files\": [\n        {\n            \"path\": \"src/config/ct_config.json\",\n            \"target\": \"ct_config\"\n        },\n        {\n            \"path\": \"src/scripts/request/pre-request.js\",\n            \"target\": \"CodeLibrary_preRequestScript\"\n        },\n        {\n            \"path\": \"src/scripts/request/test.js\",\n            \"target\": \"CodeLibrary_testScript\"\n        },\n        {\n            \"path\": \"src/CodeLib/Postman/js_yaml.js\",\n            \"target\": \"CodeLibrary_js_yaml\"\n        }\n    ]\n}",
 			"type": "string"
 		}
 	]
