@@ -70,9 +70,10 @@ function getRequestSchema (apischema, requestPath, method) {
   schemaData.schema = apischema.paths[requestPath][method];
   console.log("schema: ", schemaData.schema);
   schemaData.ref = schemaData.schema.requestBody.$ref;
-  console.log("ref: " + schemaData.ref);
+  
   
   schemaData.schema = resolveSchemaRef(schemaData.requestBody.$ref);
+  console.log("ref: " + schemaData.ref);
   return schemaData;
 }
 
