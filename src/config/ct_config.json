@@ -5,13 +5,13 @@
         "schemaID": "31ea04b8-0dfb-43ab-a768-a24d2b73e58d"
     },
     "mockResponseCode": "404",
-    "useMockResponse": true,
+    "useMockResponse": false,
     "forceValidationConflict": false,
-    "setAllPropertiesRequired": true,
+    "setAllPropertiesRequired": false,
     "validate": {
         "responseBody":true
         ,"requestBody":true
-        ,"requestParams":true
+        ,"requestParams":false
         ,"requestHeaders":true
         ,"responseHeaders":true
     }
