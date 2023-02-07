@@ -128,7 +128,8 @@ function validatePropertyList(apischema, reqSchema, request) {
       switch (curSchemaParam.in) {
           case 'path':
               {
-                  reqVarsToSearch = request.url.variables.toObject(null,null,null,null);
+                  return {}; // Can't validate path variables ATM.  the pm.request object available in the sandbox has the resolve values in the URL, and no values in the `variables` property list.
+                  //reqVarsToSearch = request.url.variables.toObject(null,null,null,null);
                   break;
               }
           case 'query':
@@ -237,7 +238,6 @@ pm.sendRequest(apiRequest, function (err, res) {
         const bodyValid = validate(pm.response.json(), resBodySchemaData.schema);
         if(reqBodySchemaData.ref != 'No Ref' && config.validate.requestParams) {
           pm.test('Validating parameters against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
-            console.log(JSON.stringify(pm.request.parent));
             var valMsgs = validatePropertyList(schemaJson, reqBodySchemaData.schema, pm.request);
             const paramsValid = (valMsgs.length === 0);
               pm.expect(paramsValid).to.be.true;
