@@ -183,7 +183,7 @@ function validatePropertyList(apischema, reqSchema, reqJson) {
 // Use the value of the `x-mock-response-code` header if it exists, is not disabled, and if the `use-response-code` 
 // environment variable is set to `true`.  The header is configured in the pre-request script
 if(pm.request.headers.has("x-mock-response-code")) {
-  console.log("x-mock: ", pm.request.headers.one("x-mock-response-code"));
+  
   var status = pm.request.headers.one("x-mock-response-code").disabled ? 200 : parseInt(pm.request.headers.get("x-mock-response-code"));
     
     status = (status == undefined || isNaN(status)  ? 200 : status);
@@ -194,7 +194,7 @@ if(pm.request.headers.has("x-mock-response-code")) {
 if(config.forceValidationConflict)
 {
   status = 200;
-  console.log("FORCING VALIDATION CONFLICT");
+  
 }
   
 
@@ -237,7 +237,8 @@ pm.sendRequest(apiRequest, function (err, res) {
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.schema);
         if(reqBodySchemaData.ref != 'No Ref' && config.validate.requestParams) {
-          pm.test('Validating parameters against ' + reqBodySchemaData.ref + 'schema from the ' + api + ' OpenAPI', function() {
+          pm.test('Validating parameters against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
+            console.log(JSON.parse(pm.request.body.raw))
             var valMsgs = validatePropertyList(schemaJson, reqBodySchemaData.schema, JSON.parse(pm.request.body.raw));
             const paramsValid = (valMsgs.length === 0);
               pm.expect(paramsValid).to.be.true;
