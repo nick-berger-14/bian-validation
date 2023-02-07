@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "03f883e0-7852-43a1-abd5-dd68baa9d4a1",
+		"_postman_id": "77320e7e-701b-49b6-bd45-ef50402d86fa",
 		"name": "Payment Initiation",
 		"description": "This service domain provides a customer payment service. It captures the payer and payee details and other key properties of the payment and orchestrates the transaction. It provides support for repeating/scheduled payments\n\nContact Support:\n Name: BIAN",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -2055,7 +2055,7 @@
 	"variable": [
 		{
 			"key": "gh_config",
-			"value": "{\n    \"slug\": \"bidnessforb/bian-validation\",\n    \"ref\": \"simplify-variables\",\n    \"files\": [\n        {\n            \"path\": \"src/config/ct_config.json\",\n            \"target\": \"ct_config\"\n        },\n        {\n            \"path\": \"src/scripts/request/pre-request.js\",\n            \"target\": \"CodeLibrary_preRequestScript\"\n        },\n        {\n            \"path\": \"src/scripts/request/test.js\",\n            \"target\": \"CodeLibrary_testScript\"\n        },\n        {\n            \"path\": \"src/CodeLib/Postman/js_yaml.js\",\n            \"target\": \"CodeLibrary_js_yaml\"\n        }\n    ]\n}",
+			"value": "{\n    \"slug\": \"bidnessforb/bian-validation\",\n    \"ref\": null,\n    \"files\": [\n        {\n            \"path\": \"src/config/ct_config.json\",\n            \"target\": \"ct_config\"\n        },\n        {\n            \"path\": \"src/scripts/request/pre-request.js\",\n            \"target\": \"CodeLibrary_preRequestScript\"\n        },\n        {\n            \"path\": \"src/scripts/request/test.js\",\n            \"target\": \"CodeLibrary_testScript\"\n        },\n        {\n            \"path\": \"src/CodeLib/Postman/js_yaml.js\",\n            \"target\": \"CodeLibrary_js_yaml\"\n        }\n    ]\n}",
 			"type": "string"
 		}
 	]
