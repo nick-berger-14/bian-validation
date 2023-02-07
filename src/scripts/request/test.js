@@ -237,7 +237,7 @@ pm.sendRequest(apiRequest, function (err, res) {
         const bodyValid = validate(pm.response.json(), resBodySchemaData.schema);
         if(reqBodySchemaData.ref != 'No Ref' && config.validate.requestParams) {
           pm.test('Validating parameters against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
-            console.log(JSON.stringify(pm.request));
+            console.log(JSON.stringify(pm.request.parent));
             var valMsgs = validatePropertyList(schemaJson, reqBodySchemaData.schema, pm.request);
             const paramsValid = (valMsgs.length === 0);
               pm.expect(paramsValid).to.be.true;
