@@ -90,8 +90,9 @@ if(respSchema.$ref !== undefined) {
     if(respObj.content[contentType].schema.$ref !== undefined) {
         respSchema = resolveSchemaRef(apischema, respObj.content[contentType].schema.$ref);
         schemaData = {};
-        schemaData.subSchema = respSchema;
+        schemaData.schema = respSchema;
         schemaData.ref = respObj.content[contentType].schema.$ref;
+        schemaData.ref = schemaData.ref.split('\/')[schemaData.ref.split('\/').length - 1]
         return schemaData;
     }
 }
@@ -228,7 +229,7 @@ pm.sendRequest(apiRequest, function (err, res) {
         var resBodySchemaData = getResponseSchema(schemaJson, path, method, status, 'application/json');
         var reqBodySchemaData = getRequestSchema(schemaJson, path, method);
         
-        const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
+        const bodyValid = validate(pm.response.json(), resBodySchemaData.schema);
         if(reqBodySchemaData.ref !== 'No Ref' && config.validate.requestBody) {
             pm.test('Validating request body against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
               const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchemaData.bodySchema);
