@@ -239,11 +239,11 @@ pm.sendRequest(apiRequest, function (err, res) {
         if(reqBodySchemaData.ref != 'No Ref' && config.validate.requestParams) {
           pm.test('Validating parameters against ' + reqBodySchemaData.ref + 'schema from the ' + api + ' OpenAPI', function() {
             var valMsgs = validatePropertyList(schemaJson, reqBodySchemaData.schema, JSON.parse(pm.request.body.raw));
-            const paramsValid = valMsgs.length === 0;
+            const paramsValid = (valMsgs.length === 0);
               pm.expect(paramsValid).to.be.true;
           });
       }
-        }
+        
 
 
         if(reqBodySchemaData.ref !== 'No Ref' && config.validate.requestBody) {
