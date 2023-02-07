@@ -4,7 +4,7 @@
         "versionID": "83599f6e-5758-4ee2-ad1b-8ba3b4e49357",
         "schemaID": "31ea04b8-0dfb-43ab-a768-a24d2b73e58d"
     },
-    "mockResponseCode": 404,
+    "mockResponseCode": "404",
     "useMockResponse": true,
     "forceValidationConflict": true,
     "setAllPropertiesRequired": true,
