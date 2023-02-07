@@ -186,7 +186,7 @@ pm.sendRequest(apiRequest, function (err, res) {
 
         // Pull Schema from API response        
         var api_response = res.json();  
-        var schemaJson = jsyaml.load(schemaYaml);
+        var schemaJson = jsyaml.load(api_response.schema.schema);
         
         
         //var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
