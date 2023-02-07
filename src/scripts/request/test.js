@@ -68,10 +68,10 @@ return elem;
 function getRequestSchema (apischema, requestPath, method) {
   var schemaData = {};
   schemaData.schema = apischema.paths[requestPath][method];
-  
+  console.log("schema: ", schemaData.schema);
   schemaData.ref = schemaData.requestBody.$ref;
   console.log("ref: " + schemaData.ref);
-  console.log("schema: ", schemaData.schema);
+  
   schemaData.schema = resolveSchemaRef(schemaData.requestBody.$ref);
   return schemaData;
 }
@@ -224,8 +224,9 @@ pm.sendRequest(apiRequest, function (err, res) {
         //var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
         
         var resBodySchemaData = getResponseSchema(schemaJson, path, method, status, 'application/json');
-        console.log("reqBodySchemaData: ", reqBodySchemaData);
+        
         var reqBodySchemaData = getRequestSchema(schemaJson, path, method);
+        console.log("reqBodySchemaData: ", reqBodySchemaData);
         
         
         var reqBodySchema = resolveSchemaRef(schemaJson, reqBodySchemaData.requestBody.$ref);
