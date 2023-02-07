@@ -9,7 +9,7 @@
     "forceValidationConflict": false,
     "setAllPropertiesRequired": true,
     "validate": {
-        "responseBody":false
+        "responseBody":true
         ,"requestBody":true
         ,"requestParams":true
         ,"requestHeaders":true
