@@ -26,7 +26,7 @@ console.log("API ID: " + api_id + " API VERSION ID: " + api_version_id + " SCHEM
 // We're just after a schema here and it's not going to change, should we just go straight to BIAN?
 var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_version_id + '/schemas/' + schema_id;
 
-  /* //Mutate the schema to require all properties, custom for each ref :(
+  //Mutate the schema to require all properties, custom for each ref :(
   function requireAll (schema) {
     if(status != 200) {
         return schema;
@@ -97,7 +97,7 @@ function getSubSchemaYaml(schemapath, method, schemaYaml, type) {
     var schemaJson = jsyaml.load(schemaYaml);
     return getSubSchemaJson(schemapath, method, schemaJson, type);
 };
- */
+ 
 /*function getSubSchemaJson(schemapath, method, schema, type) {
     
     var subComponent = type === 'request' ? 'requestBody' : 'responses';
