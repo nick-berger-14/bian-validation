@@ -128,7 +128,7 @@ function validatePropertyList(apischema, reqSchema, request) {
       switch (curSchemaParam.in) {
           case 'path':
               {
-                  return {}; // Can't validate path variables ATM.  the pm.request object available in the sandbox has the resolve values in the URL, and no values in the `variables` property list.
+                  return validationResults; // Can't validate path variables ATM.  the pm.request object available in the sandbox has the resolve values in the URL, and no values in the `variables` property list.
                   //reqVarsToSearch = request.url.variables.toObject(null,null,null,null);
                   break;
               }
@@ -145,7 +145,7 @@ function validatePropertyList(apischema, reqSchema, request) {
           case 'cookie':
               {
                   //Not implemented
-                  return new Object();
+                  return validationResults
               }
           
       }
