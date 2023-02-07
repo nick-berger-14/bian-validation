@@ -11,7 +11,7 @@
     "validate": {
         "responseBody":true
         ,"requestBody":true
-        ,"requestParams":false
+        ,"requestParams":true
         ,"requestHeaders":true
         ,"responseHeaders":true
     }
