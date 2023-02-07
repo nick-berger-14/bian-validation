@@ -230,7 +230,7 @@ pm.sendRequest(apiRequest, function (err, res) {
         console.log("reqBodySchemaData: ", reqBodySchemaData);
         
         
-        var reqBodySchema = resolveSchemaRef(schemaJson, reqBodySchemaData.requestBody.$ref);
+        var reqBodySchema = resolveSchemaRef(schemaJson, reqBodySchemaData.schema.requestBody.$ref);
         
         //var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
         
