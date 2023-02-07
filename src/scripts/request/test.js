@@ -71,9 +71,9 @@ function getRequestSchema (apischema, requestPath, method) {
   console.log("schema: ", schemaData.schema);
   schemaData.ref = schemaData.schema.requestBody.$ref;
   
-  
-  schemaData.schema = resolveSchemaRef(schemaData.ref);
   console.log("ref: " + schemaData.ref);
+  schemaData.schema = resolveSchemaRef(schemaData.ref);
+  
   return schemaData;
 }
 
