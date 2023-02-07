@@ -236,6 +236,17 @@ pm.sendRequest(apiRequest, function (err, res) {
         var reqBodySchemaData = getRequestSchema(schemaJson, path, method);
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.schema);
+        if(reqBodySchemaData.ref != 'No Ref' && config.validate.requestParams) {
+          pm.test('Validating parameters against ' + reqBodySchemaData.ref + 'schema from the ' + api + ' OpenAPI'), function() {
+            
+            var valMsgs = validatePropertyList(schemaJson, reqBodySchemaData.schema, JSON.parse(pm.request.body.raw));
+            const paramsValid = valMsgs.length === 0;
+              pm.expect(paramsValid).to.be.true;
+          });
+      }
+        }
+
+
         if(reqBodySchemaData.ref !== 'No Ref' && config.validate.requestBody) {
             pm.test('Validating request body against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
               const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchemaData.bodySchema);
