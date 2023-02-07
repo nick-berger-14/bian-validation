@@ -108,10 +108,8 @@ function getSubSchemaYaml (schemapath, method, schemaYaml, type) {
   return getSubSchemaJson(schemapath, method, schemaJson, type);
 };
 
-function validatePropertyList(apischema, reqSchema, reqJson) {
+function validatePropertyList(apischema, reqSchema, request) {
   var paramSchema;
-  
-  var request = new Request(reqJson);
   
   var curSchemaParam;
   var validationResults = [];
@@ -240,7 +238,7 @@ pm.sendRequest(apiRequest, function (err, res) {
         if(reqBodySchemaData.ref != 'No Ref' && config.validate.requestParams) {
           pm.test('Validating parameters against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
             console.log("REQUEST: ", pm.request);
-            var valMsgs = validatePropertyList(schemaJson, reqBodySchemaData.schema, JSON.parse(pm.request.body.raw));
+            var valMsgs = validatePropertyList(schemaJson, reqBodySchemaData.schema, pm.request);
             const paramsValid = (valMsgs.length === 0);
               pm.expect(paramsValid).to.be.true;
           });
