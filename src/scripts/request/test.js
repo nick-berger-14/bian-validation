@@ -97,7 +97,7 @@ function getSubSchemaYaml (schemapath, method, schemaYaml, type) {
   return getSubSchemaJson(schemapath, method, schemaJson, type);
 };
 
-function validatePropertyList =  function (apischema, reqSchema, reqJson) {
+function validatePropertyList(apischema, reqSchema, reqJson) {
   var paramSchema;
   
   var request = new Request(reqJson);
@@ -168,52 +168,6 @@ function validatePropertyList =  function (apischema, reqSchema, reqJson) {
   
 }
 
-
-/*function getSubSchemaJson(schemapath, method, schema, type) {
-    
-    var subComponent = type === 'request' ? 'requestBody' : 'responses';
-    var subRef = type === 'request' ?'requestBodies' :'responses'; 
-    var elem;
-
-    var schemaData = {};
-    schemaData.subSchema = "No Schema"
-    schemaData.ref = "No Ref";
-    //This is is terrible
-  try {
-      if(subComponent === 'responses') {
-        elem = schema.paths[schemapath][method][subComponent][status]['$ref'];
-      }
-      else {
-        elem = schema.paths[schemapath][method][subComponent]['$ref'];
-      }
-    }
-    catch(err) {
-      if(err.message === "Cannot read properties of undefined (reading '$ref')") {
-        console.log("No " + type + "body found for method " + method + " on path: " + schemapath);
-        return schemaData;
-      }
-      else {
-          console.log(err);
-      }
-    }
-    
-    elem = elem.split('\/')[(elem.split('\/').length) - 1] 
-    
-    var elemRef = schema.components[subRef][elem].content['application/json'].schema['$ref'];
-    //this is terrible also
-    if(status != 200) {
-        elemRef = elemRef.split('\/')[(elemRef.split('\/').length) - 1] //works for req and res 200
-      }
-      else {
-        elemRef = elem.split('\/')[(elem.split('\/').length) - 1] //works for req and res 200
-      }
-
-    schemaData = {};
-    schemaData.subSchema = schema.components.schemas[elemRef];
-    schemaData.ref = elemRef;
-    return schemaData;
-};
-*/
 
 
 // Use the value of the `x-mock-response-code` header if it exists, is not disabled, and if the `use-response-code` 
