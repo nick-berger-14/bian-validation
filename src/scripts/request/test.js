@@ -106,7 +106,7 @@ function getResponseSchema (apischema, requestPath, method, status, contentType)
           respSchema = resolveSchemaRef(apischema, respObj.content[contentType].schema.$ref);
           schemaData.schema = respSchema;
           ref = respObj.content[contentType].schema.$ref;
-          schemaData.ref = ref.split('\/')[ref.split(\/).length - 1]
+          schemaData.ref = ref.split('\/')[ref.split('\/').length - 1]
       }
   }
   else {
