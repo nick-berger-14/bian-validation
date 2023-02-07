@@ -6,7 +6,7 @@
     },
     "mockResponseCode": "404",
     "useMockResponse": true,
-    "forceValidationConflict": true,
+    "forceValidationConflict": false,
     "setAllPropertiesRequired": true,
     "validate": {
         "responseBody":true
