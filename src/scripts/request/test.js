@@ -67,12 +67,13 @@ return elem;
 
 function getRequestSchema (apischema, requestPath, method) {
   var schemaData = {};
-  schemaData.schema = apischema.paths[requestPath][method];
-  console.log("schema: ", schemaData.schema);
-  schemaData.ref = schemaData.schema.requestBody.$ref;
-  
-  console.log("ref: " + schemaData.ref);
-  schemaData.schema = resolveSchemaRef(apischema, schemaData.ref);
+  var ref;
+  contentType = 'application/json'
+  schemaData.schema =   apischema.paths[requestPath][method];
+  schemaData.bodySchema = resolveSchemaRef(apischema, schemaData.schema.requestBody.$ref);
+  ref = schemaData.bodySchema.content[contentType].schema.$ref;
+  schemaData.ref = ref.split('\/')[ref.split('\/').length - 1];
+  schemaData.bodySchema = resolveSchemaRef(apischema, schemaData.bodySchema.content[contentType].schema.$ref);
   
   return schemaData;
 }
@@ -225,21 +226,12 @@ pm.sendRequest(apiRequest, function (err, res) {
         //var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
         
         var resBodySchemaData = getResponseSchema(schemaJson, path, method, status, 'application/json');
-        
         var reqBodySchemaData = getRequestSchema(schemaJson, path, method);
-        
-        
-        
-        var reqBodySchema = resolveSchemaRef(schemaJson, reqBodySchemaData.ref);
-        console.log(reqBodySchema);
-        
-        //var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
-        
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
         if(reqBodySchemaData.ref !== 'No Ref' && config.validate.requestBody) {
             pm.test('Validating request body against ' + reqBodySchemaData.ref + ' schema from the ' + api + ' OpenAPI', function() {
-              const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchema);
+              const reqValid = validate(JSON.parse(pm.request.body.raw), reqBodySchemaData.bodySchema);
                 pm.expect(reqValid).to.be.true;
             });
         }

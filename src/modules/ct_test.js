@@ -1,5 +1,4 @@
 
-var ctutil = {};
 
 
 
@@ -146,7 +145,6 @@ function validatePropertyList =  function (apischema, reqSchema, reqJson) {
         
     }
 
-    module.exports = ctutil;
     
     
     
