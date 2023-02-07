@@ -95,6 +95,8 @@ function getResponseSchema (apischema, requestPath, method, status, contentType)
   var respSchema = apischema.paths[requestPath][method].responses[status];
   var respObj;
   var schemaData = {};
+  var ref;
+
   if(respSchema === undefined || respSchema === null) {
       return null;
   }
@@ -103,7 +105,8 @@ function getResponseSchema (apischema, requestPath, method, status, contentType)
       if(respObj.content[contentType].schema.$ref !== undefined) {
           respSchema = resolveSchemaRef(apischema, respObj.content[contentType].schema.$ref);
           schemaData.schema = respSchema;
-          schemaData.ref = respObj.content[contentType].schema.$ref;
+          ref = respObj.content[contentType].schema.$ref;
+          schemaData.ref = ref.split('\/')[ref.split(\/).length - 1]
       }
   }
   else {
