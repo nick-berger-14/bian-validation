@@ -68,35 +68,49 @@ return elem;
 
 function getRequestSchema (apischema, requestPath, method) {
   var schemaData = {};
-  var ref;
-  contentType = 'application/json'
-  schemaData.schema =   apischema.paths[requestPath][method];
-  schemaData.bodySchema = resolveSchemaRef(apischema, schemaData.schema.requestBody.$ref);
-  ref = schemaData.bodySchema.content[contentType].schema.$ref;
-  schemaData.ref = ref.split('\/')[ref.split('\/').length - 1];
-  schemaData.bodySchema = resolveSchemaRef(apischema, schemaData.bodySchema.content[contentType].schema.$ref);
-  
-  return schemaData;
+    var ref;
+    contentType = 'application/json'
+    schemaData.schema =   apischema.paths[requestPath][method];
+    if(schemaData.schema.requestBody === undefined) {
+        //no Request Body
+        schemaData.schema = null;
+        schemaData.ref = 'No Ref';
+        return schemaData;
+    }
+    if(schemaData.schema.requestBody.$ref !== undefined) {
+        schemaData.bodySchema = resolveSchemaRef(apischema, schemaData.schema.requestBody.$ref);
+        ref = schemaData.bodySchema.content[contentType].schema.$ref;
+        schemaData.ref = ref.split('\/')[ref.split('\/').length - 1];
+        schemaData.bodySchema = resolveSchemaRef(apischema, schemaData.bodySchema.content[contentType].schema.$ref);
+    }
+
+    
+    
+    
+    return schemaData;
 }
 
 function getResponseSchema (apischema, requestPath, method, status, contentType) {
-contentType = 'application/json'; //hard coded for now till we figure out how to get it out of the headers.
-var respSchema = apischema.paths[requestPath][method].responses[status];
-var respObj;
-if(respSchema === undefined || respSchema === null) {
-    return null;
-}
-if(respSchema.$ref !== undefined) {
-    respObj = resolveSchemaRef(apischema, respSchema.$ref);
-    if(respObj.content[contentType].schema.$ref !== undefined) {
-        respSchema = resolveSchemaRef(apischema, respObj.content[contentType].schema.$ref);
-        schemaData = {};
-        schemaData.schema = respSchema;
-        schemaData.ref = respObj.content[contentType].schema.$ref;
-        schemaData.ref = schemaData.ref.split('\/')[schemaData.ref.split('\/').length - 1]
-        return schemaData;
-    }
-}
+  contentType = 'application/json'; //hard coded for now till we figure out how to get it out of the headers.
+  var respSchema = apischema.paths[requestPath][method].responses[status];
+  var respObj;
+  var schemaData = {};
+  if(respSchema === undefined || respSchema === null) {
+      return null;
+  }
+  if(respSchema.$ref !== undefined) {
+      respObj = resolveSchemaRef(apischema, respSchema.$ref);
+      if(respObj.content[contentType].schema.$ref !== undefined) {
+          respSchema = resolveSchemaRef(apischema, respObj.content[contentType].schema.$ref);
+          schemaData.schema = respSchema;
+          schemaData.ref = respObj.content[contentType].schema.$ref;
+      }
+  }
+  else {
+    schemaData.schema = respSchema.content[contentType].schema;
+    schemaData.ref = 'Native (no ref)';
+  }
+  return schemaData;
 return new Object();
 
 }
