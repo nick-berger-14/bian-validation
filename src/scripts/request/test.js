@@ -5,28 +5,28 @@ https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/test.js
 */
 
 const config = JSON.parse(pm.collectionVariables.get('ct_config'));
+const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
+(new Function(yaml))();
+
+
 var api = 'Payment Initiation'; //need to make this dynamic
 var path = pm.collectionVariables.get("ct_runtime_schemaPath");  //need to make this dynamic
 var method = pm.request.method.toLowerCase(); //Set dynamically
+
 // Pull variables needed to pull the OpenAPI
 // TODO: this should all be dynamic somehow, maybe by tracing request path
 var postman_api_key = pm.environment.get("Postman_APIKey");
 var api_id = config.api.id
 var api_version_id = config.api.versionID;
 var schema_id = config.api.schemaID;
+
 console.log("API ID: " + api_id + " API VERSION ID: " + api_version_id + " SCHEMA ID: " + schema_id);
+
 // Pull the OpenAPI from the Postman API
 // We're just after a schema here and it's not going to change, should we just go straight to BIAN?
 var api_url = 'https://api.getpostman.com/apis/' + api_id + '/versions/' + api_version_id + '/schemas/' + schema_id;
 
-
-const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
-
-(new Function(yaml))();
-
-
-
-  //Mutate the schema to require all properties, custom for each ref :(
+  /* //Mutate the schema to require all properties, custom for each ref :(
   function requireAll (schema) {
     if(status != 200) {
         return schema;
@@ -53,13 +53,52 @@ const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
     return valid;
 };
 
+function resolveSchemaRef(apischema, ref) {
+  //var refElems = paramsRef.split('\/');
+  var refElems = ref.split('\/');
+  var elem = apischema;
+  if(refElems[0] === '#') {
+      refElems.splice(0,1);
+  }
+  refElems.forEach(pathElem => {
+      elem = elem[pathElem];
+  });
+  return elem;
+}
+
+function getRequestSchema(apischema, requestPath, method) {
+  return apischema.paths[requestPath][method];
+}
+
+function getResponseSchema(apischema, requestPath, method, status, contentType) {
+  contentType = 'application/json'; //hard coded for now till we figure out how to get it out of the headers.
+  var respSchema = apischema.paths[requestPath][method].responses[status];
+  var respObj;
+  if(respSchema === undefined || respSchema === null) {
+      return null;
+  }
+  if(respSchema.$ref !== undefined) {
+      respObj = resolveSchemaRef(apischema, respSchema.$ref);
+      if(respObj.content[contentType].schema.$ref !== undefined) {
+          respSchema = resolveSchemaRef(apischema, respObj.content[contentType].schema.$ref);
+          schemaData = {};
+          schemaData.subSchema = respSchema;
+          schemaData.ref = respObj.content[contentType].schema.$ref;
+          return schemaData;
+      }
+  }
+  return new Object();
+
+}
+
+
 function getSubSchemaYaml(schemapath, method, schemaYaml, type) {
     
     var schemaJson = jsyaml.load(schemaYaml);
     return getSubSchemaJson(schemapath, method, schemaJson, type);
 };
-
-function getSubSchemaJson(schemapath, method, schema, type) {
+ */
+/*function getSubSchemaJson(schemapath, method, schema, type) {
     
     var subComponent = type === 'request' ? 'requestBody' : 'responses';
     var subRef = type === 'request' ?'requestBodies' :'responses'; 
@@ -85,7 +124,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
       else {
           console.log(err);
       }
-    }    
+    }
     
     elem = elem.split('\/')[(elem.split('\/').length) - 1] 
     
@@ -103,6 +142,7 @@ function getSubSchemaJson(schemapath, method, schema, type) {
     schemaData.ref = elemRef;
     return schemaData;
 };
+*/
 
 
 // Use the value of the `x-mock-response-code` header if it exists, is not disabled, and if the `use-response-code` 
@@ -146,11 +186,15 @@ pm.sendRequest(apiRequest, function (err, res) {
 
         // Pull Schema from API response        
         var api_response = res.json();  
+        var schemaJson = jsyaml.load(schemaYaml);
         
         
-        var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
+        //var resBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "response");
+        var resBodySchemaData = getResponseSchema(schemaJson, path, method, status, 'application/json');
+        var reqBodySchemaData = getRequestSchema(schemaJson, path, method);
+        var reqBodySchema = resolveSchemaRef(schemaJson, reqBodySchemaData.requestBody.$ref);
         
-        var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
+        //var reqBodySchemaData = getSubSchemaYaml(path, method, api_response.schema.schema, "request")
         
         
         const bodyValid = validate(pm.response.json(), resBodySchemaData.subSchema);
