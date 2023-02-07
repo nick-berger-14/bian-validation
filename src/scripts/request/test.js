@@ -183,7 +183,8 @@ function validatePropertyList(apischema, reqSchema, reqJson) {
 // Use the value of the `x-mock-response-code` header if it exists, is not disabled, and if the `use-response-code` 
 // environment variable is set to `true`.  The header is configured in the pre-request script
 if(pm.request.headers.has("x-mock-response-code")) {
-    var status = pm.request.headers.one("x-mock-response-code").disabled ? 200 : parseInt(pm.request.headers.get("x-mock-response-code"));
+  console.log("x-mock: ", pm.request.headers.one("x-mock-response-code"));
+  var status = pm.request.headers.one("x-mock-response-code").disabled ? 200 : parseInt(pm.request.headers.get("x-mock-response-code"));
     
     status = (status == undefined || isNaN(status)  ? 200 : status);
 }
@@ -191,7 +192,12 @@ if(pm.request.headers.has("x-mock-response-code")) {
 //Hardcode status to something different from that returned by the above
 //This code executes if the `force_conflict` collection variable is set to true AND `use_mock_response` is set to true AND `response-code` is not 200
 if(config.forceValidationConflict)
-    status = 200;
+{
+  status = 200;
+  console.log("FORCING VALIDATION CONFLICT");
+}
+  
+
 
 
 // First Test - Baseline Status Code
