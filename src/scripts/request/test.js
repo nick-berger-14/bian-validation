@@ -195,6 +195,9 @@ function validatePropertyList(apischema, reqSchema, request) {
   
 }
 
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
 
 
 // Use the value of the `x-mock-response-code` header if it exists, is not disabled, and if the `use-response-code` 
