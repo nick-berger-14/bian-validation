@@ -238,7 +238,7 @@ const apiRequest = {
 };
 //Get the API
 pm.sendRequest(apiRequest, function (err, res) {
-
+     console.log("Sending the req");
     if (err) {
         pm.test('Error fetching schema for the ' + api + ': ' + e.message, function() {
                 pm.expect(false).to.be.true;
