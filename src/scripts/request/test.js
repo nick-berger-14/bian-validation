@@ -114,7 +114,7 @@ function getResponseSchema (apischema, requestPath, method, status, contentType)
     schemaData.ref = 'Native (no ref)';
   }
   return schemaData;
-return new Object();
+//return new Object();
 
 }
 
