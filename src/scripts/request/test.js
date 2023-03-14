@@ -4,6 +4,7 @@ https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/test.js
 
 */
 debugger;
+console.log("Were doing it");
 const Request = require('postman-collection').Request;
 const config = JSON.parse(pm.collectionVariables.get('ct_config'));
 const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
