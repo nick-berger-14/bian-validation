@@ -3,7 +3,7 @@ NOTE: This code is stored in GitHub:
 https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/test.js
 
 */
-console.log("Are we even running tests?");
+debugger;
 const Request = require('postman-collection').Request;
 const config = JSON.parse(pm.collectionVariables.get('ct_config'));
 const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
