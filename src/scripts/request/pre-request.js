@@ -8,7 +8,7 @@ https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/pre-req
 var path = pm.request.url.getPath(true);
 var paths = pm.request.url.path;
 var schemaPath = '';
-
+debugger;
 paths.forEach(path => {
     if(path.substring(0,1) === ':') {
         path = "{" + path.substring(1) + "}";
