@@ -4,8 +4,6 @@ https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/test.js
 
 */
 debugger;
-console.log("test");
-console.log("Were doing it");
 const Request = require('postman-collection').Request;
 const config = JSON.parse(pm.collectionVariables.get('ct_config'));
 const yaml =  pm.collectionVariables.get('CodeLibrary_js_yaml');
@@ -24,7 +22,7 @@ var api_id = config.api.id
 var api_version_id = config.api.versionID;
 var schema_id = config.api.schemaID;
 
-console.log("API ID: " + api_id + " API VERSION ID: " + api_version_id + " SCHEMA ID: " + schema_id);
+//console.log("API ID: " + api_id + " API VERSION ID: " + api_version_id + " SCHEMA ID: " + schema_id);
 
 // Pull the OpenAPI from the Postman API
 // We're just after a schema here and it's not going to change, should we just go straight to BIAN?
@@ -198,9 +196,6 @@ function validatePropertyList(apischema, reqSchema, request) {
   
 }
 
-pm.test("Status code is 200", function () {
-    pm.response.to.have.status(200);
-});
 
 
 // Use the value of the `x-mock-response-code` header if it exists, is not disabled, and if the `use-response-code` 
@@ -221,8 +216,6 @@ if(config.forceValidationConflict)
 }
   
 
-
-
 // First Test - Baseline Status Code
 pm.test("Status code is " + status, function () {
     pm.response.to.have.status(status);
@@ -241,7 +234,7 @@ const apiRequest = {
 };
 //Get the API
 pm.sendRequest(apiRequest, function (err, res) {
-     console.log("Sending the req");
+     //console.log("Sending the req");
     if (err) {
         pm.test('Error fetching schema for the ' + api + ': ' + e.message, function() {
                 pm.expect(false).to.be.true;

@@ -5,7 +5,7 @@ https://github.com/BidnessForB/bian-validation/blob/main/scripts/request/pre-req
 */
 
 debugger;
-console.log("PR");
+
 var path = pm.request.url.getPath(true);
 var paths = pm.request.url.path;
 var schemaPath = '';
@@ -17,7 +17,7 @@ paths.forEach(path => {
         schemaPath = schemaPath + "/" + path;
 });
 
-console.log("REQUEST ", JSON.stringify(pm.request));
+//console.log("REQUEST ", JSON.stringify(pm.request));
 
 pm.collectionVariables.set("ct_runtime_schemaPath", schemaPath);
 
