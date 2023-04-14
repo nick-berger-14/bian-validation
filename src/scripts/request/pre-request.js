@@ -25,3 +25,5 @@ pm.collectionVariables.set("ct_runtime_schemaPath", schemaPath);
 var config = JSON.parse(pm.collectionVariables.get("ct_config"));
 
 pm.request.headers.upsert({'key':'x-mock-response-code', 'value':config.mockResponseCode,'disabled':!config.useMockResponse});
+
+console.log("Hi everybody")
