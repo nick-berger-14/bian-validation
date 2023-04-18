@@ -17,7 +17,8 @@ paths.forEach(path => {
         schemaPath = schemaPath + "/" + path;
 });
 
-console.log("REQUEST ", JSON.stringify(pm.request));
+//console.log("REQUEST ", JSON.stringify(pm.request));
+console.log("This is a test pre-request console log");
 
 pm.collectionVariables.set("ct_runtime_schemaPath", schemaPath);
 
